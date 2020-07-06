@@ -36,6 +36,7 @@
     <div class="content" id="app">
         <botman-tinker api-endpoint="/botman"></botman-tinker>
         <form action="/users/1" method="POST">
+            {{ csrf }}
             <input type="text" name="Name">
             <button type="submit">Submit</button>
         </form>

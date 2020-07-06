@@ -8,7 +8,8 @@ use GuzzleHttp\Client;
 class DogService
 {
     // The endpoint we will be getting a random image from.
-    const RANDOM_ENDPOINT = 'https://dog.ceo/api/breeds/image/random';
+    //const RANDOM_ENDPOINT = 'https://dog.ceo/api/breeds/image/random';
+    const RANDOM_ENDPOINT = 'https://random.dog/woof.json';
     // The endpoint we will hit to get a random image by a given breed name.
     const BREED_ENDPOINT = 'https://dog.ceo/api/breed/%s/images/random';
     
@@ -44,7 +45,8 @@ class DogService
             );
 
             // Return the image URL.
-            return $response->message;
+            //return $response->message;
+            return $response->url;
         } catch (Exception $e) {
             // If anything goes wrong, we will be sending the user this error message.
             return 'An unexpected error occurred. Please try again later.';

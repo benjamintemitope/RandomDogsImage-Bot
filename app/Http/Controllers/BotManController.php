@@ -34,9 +34,4 @@ class BotManController extends Controller
     {
         $bot->startConversation(new ExampleConversation());
     }
-
-    public function test()
-    {
-        return "POST METHOD WORKING.";
-    }
 }

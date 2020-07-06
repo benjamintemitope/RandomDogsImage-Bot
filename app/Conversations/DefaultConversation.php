@@ -20,8 +20,8 @@ class DefaultConversation extends Conversation
         $question = Question::create('Huh - you woke me up. What do you need?')
             ->addButtons([
                 Button::create('Random dog photo 🐶 🖼')->value('random'),
-                /*Button::create('A photo by breed 🖼')->value('breed'),
-                Button::create('A photo by sub-breed 🖼')->value('sub-breed'),*/
+                Button::create('A photo by breed 🖼')->value('breed'),
+                Button::create('A photo by sub-breed 🖼')->value('sub-breed'),
             ]);
 
         // We ask our user the question.

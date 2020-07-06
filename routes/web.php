@@ -18,6 +18,4 @@ Route::get('/', function () {
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::get('/botman/tinker', 'BotManController@tinker');
 
-Route::post('users/1', function() {
-    echo "POST request working";
-});
+Route::post('user/{id}', 'BotManController@test');

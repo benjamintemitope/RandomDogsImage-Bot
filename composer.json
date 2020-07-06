@@ -74,5 +74,11 @@
         "optimize-autoloader": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "warmup": [
+            "php artisan config:cache",
+            "php artisan route:cache"
+        ]
+    }
 }

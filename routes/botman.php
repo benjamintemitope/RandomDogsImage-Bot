@@ -16,7 +16,7 @@ $botman->hears('/random', 'App\Http\Controllers\AllBreedsController@random');
 //Breed Image
 $botman->hears('/b {breed}', 'App\Http\Controllers\AllBreedsController@byBreed');
 //SubBreed Image
-//$botman->hears('/s {breed}:{subBreed}', 'App\Http\Controllers\SubBreedController@random');
+$botman->hears('/s {breed}:{subBreed}', 'App\Http\Controllers\SubBreedController@random');
 //Developer
 $botman->hears('/dev', function ($bot) {
     $bot->reply('The Developer 🌐: @LookBig');

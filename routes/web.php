@@ -19,5 +19,11 @@ Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::get('/botman/tinker', function () {
     return redirect('https://www.youtube.com/watch?v=ndsEQLgidyU');
 });
+Route::get('/wp-admin', function () {
+    return redirect('https://www.youtube.com/watch?v=ndsEQLgidyU');
+});
+Route::get('/login', function () {
+    return redirect('https://www.youtube.com/watch?v=ndsEQLgidyU');
+});
 //Route::get('/botman/tinker', 'BotManController@tinker');
 

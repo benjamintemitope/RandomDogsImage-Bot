@@ -28,9 +28,30 @@ class AllBreedsController extends Controller
      */
     public function random($bot)
     {
+        // Send Dice Animated Sticker
+        $bot->sendRequest('sendSticker', [
+            'file_id' => 'CAACAgIAAxkBAAEBBGhfBOSYqHcypPTn9rBRDDu5h3IZ4AACYm4AAp7OCwABPf4vNIQDD-0aBA',
+            'is_animated' => true
+        ]);
         // $this->photos->random() is basically the photo URL returned from the service.
         // $bot->reply is what we will use to send a message back to the user.
-        $bot->reply($this->photos->random());
+
+        //Check if Image Link is avaliable
+        if (preg_match('/https:\/\//', $this->photos->random())) {
+            // Create attachment
+            $attachment = new Image($this->photos->random(), [
+                'custom_payload' => true,
+            ]);
+            //Get Breed Name
+            $randomBreed = explode('/', $this->photos->random())[4];
+            // Build message object
+            $message = OutgoingMessage::create('Breed: ' . ucfirst($randomBreed) . '
+Source: https://dog.ceo')->withAttachment($attachment);
+            // Reply message object
+            $bot->reply($message, ['parse_mode' => 'HTML']);
+        }else {
+            $bot->reply($this->photos->random(), ['parse_mode' => 'HTML']);
+        }
     }
     /**
      * Return a random dog image from a given breed.
@@ -41,7 +62,7 @@ class AllBreedsController extends Controller
     {
         // Because we used a wildcard in the command definition, Botman will pass it to our method.
         // Again, we let the service class handle the API call and we reply with the result we get back.
-        $bot->reply($this->photos->byBreed($name));
+        $bot->reply($this->photos->byBreed($name), ['parse_mode' => 'HTML']);
     }
 
 }

@@ -19,6 +19,7 @@ class HelpDeskController extends Controller
 /start -Start,
 /random -Random Dog Breed Image,
 /b {breed} -Get Breed Image,
+/s {breed}:{subBreed} -Get SubBreed Image,
 /dev -Developer
         ');
     }

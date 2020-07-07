@@ -41,8 +41,7 @@ class AllBreedsController extends Controller
             $randomBreed = explode('/', $this->photos->random())[4];
             // Build message object
             $message = OutgoingMessage::create('Breed: ' . ucfirst($randomBreed) . '
-                %0A 
-                Source: https://dog.ceo')->withAttachment($attachment);
+            Source: https://dog.ceo')->withAttachment($attachment);
             // Reply message object
             $bot->reply($message);
         }else {

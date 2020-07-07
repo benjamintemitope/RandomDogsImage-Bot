@@ -16,9 +16,9 @@ class HelpDeskController extends Controller
     {
         $bot->reply('
             Commands Avaliable
-            \/start\ - Start,
-            \/random\ - Random Dog Breed Image,
-            \/dev\ - The Developer,
+            /start - Start,
+            /random - Random Dog Breed Image,
+            /dev - The Developer,
         ');
     }
 }

@@ -15,10 +15,10 @@ class HelpDeskController extends Controller
     public function index($bot)
     {
         $bot->reply('
-            Commands Avaliable %0A
-            \'/start\' - Start %0A,
-            \'/random\' - Random Dog Breed Image %0A,
-            \'/dev\' - The Developer %0A,
+            Commands Avaliable
+            \/start\ - Start,
+            \/random\ - Random Dog Breed Image,
+            \/dev\ - The Developer,
         ');
     }
 }

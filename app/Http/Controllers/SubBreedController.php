@@ -55,7 +55,7 @@ class SubBreedController extends Controller
             $subBreedName = explode('/', $response->message)[4];
             // Build message object
             $message = OutgoingMessage::create('Breed: ' . ucfirst($subBreedName) . '
-            Source: https://dog.ceo')->withAttachment($attachment);
+Source: https://dog.ceo')->withAttachment($attachment);
             // Reply message object
             $bot->reply($message);
 

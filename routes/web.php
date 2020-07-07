@@ -16,5 +16,8 @@ Route::get('/', function () {
 });
 
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
-Route::get('/botman/tinker', 'BotManController@tinker');
+Route::get('/botman/tinker', function () {
+    return redirect('https://www.youtube.com/watch?v=ndsEQLgidyU');
+});
+//Route::get('/botman/tinker', 'BotManController@tinker');
 

@@ -7,6 +7,7 @@ use BotMan\BotMan\Messages\Outgoing\Question;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 
+
 class DefaultConversation extends Conversation
 {
     /**
@@ -19,9 +20,9 @@ class DefaultConversation extends Conversation
         // We first create our question and set the options and their values.
         $question = Question::create('Huh - you woke me up. What do you need?')
             ->addButtons([
-                Button::create('Random dog photo 🐶 🖼')->value('random'),
-                Button::create('A photo by breed 🖼')->value('breed'),
-                Button::create('A photo by sub-breed 🖼')->value('sub-breed'),
+                Button::create('Random dog photo')->value('random'),
+                Button::create('A photo by breed')->value('breed'),
+                Button::create('A photo by sub-breed')->value('sub-breed'),
             ]);
 
         // We ask our user the question.
@@ -66,6 +67,7 @@ class DefaultConversation extends Conversation
     public function askForSubBreed()
     {
         $this->ask('What\'s the breed and sub-breed names? ex:hound:afghan', function (Answer $answer) {
+            $answer = strtolower($answer);
             $answer = explode(':', $answer->getText());
 
             $this->say((new App\Services\DogService)->bySubBreed($answer[0], $answer[1]));

@@ -37,6 +37,8 @@ class SubBreedController extends Controller
      */
     public function bySubBreed($breed, $subBreed)
     {
+        $breed = strtolower($breed);
+        $subBreed = strtolower($subBreed);
         try {
             $endpoint = sprintf(self::SUB_BREED_ENDPOINT, $breed, $subBreed);
 
@@ -44,9 +46,23 @@ class SubBreedController extends Controller
                 $this->client->get($endpoint)->getBody()
             );
 
-            return $response->message;
+            // Create attachment
+            $attachment = new Image($response->message, [
+                'custom_payload' => true,
+            ]);
+
+            //Get Breed Name
+            $subBreedName = explode('/', $response->message)[4];
+            // Build message object
+            $message = OutgoingMessage::create('Breed: ' . ucfirst($subBreedName) . '
+                %0A 
+                Source: https://dog.ceo')->withAttachment($attachment);
+            // Reply message object
+            $bot->reply($message);
+
+            //return $response->message;
         } catch (Exception $e) {
-            return "Sorry I couldn\"t get you any photos from $breed. Please try with a different breed.";
+            return "Sorry I couldn't get you any photos from your input ($breed). Please try with a different breed .";
         }
     }
 }

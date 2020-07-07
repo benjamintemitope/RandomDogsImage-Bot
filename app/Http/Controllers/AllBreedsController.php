@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Services\DogService;
 use App\Http\Controllers\Controller;
+use BotMan\BotMan\Messages\Attachments\Image;
+use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 
 class AllBreedsController extends Controller
 {
@@ -28,7 +30,24 @@ class AllBreedsController extends Controller
     {
         // $this->photos->random() is basically the photo URL returned from the service.
         // $bot->reply is what we will use to send a message back to the user.
-        $bot->reply($this->photos->random());
+
+        //Check if Image Link is avaliable
+        if (preg_match('/https:\/\//', $this->photos->random())) {
+            // Create attachment
+            $attachment = new Image($this->photos->random(), [
+                'custom_payload' => true,
+            ]);
+            //Get Breed Name
+            $randomBreed = explode('/', $this->photos->random())[4];
+            // Build message object
+            $message = OutgoingMessage::create('Breed: ' . ucfirst($randomBreed) . '
+                %0A 
+                Source: https://dog.ceo')->withAttachment($attachment);
+            // Reply message object
+            $bot->reply($message);
+        }else {
+            $bot->reply($this->photos->random());
+        }
     }
     /**
      * Return a random dog image from a given breed.
@@ -39,7 +58,24 @@ class AllBreedsController extends Controller
     {
         // Because we used a wildcard in the command definition, Botman will pass it to our method.
         // Again, we let the service class handle the API call and we reply with the result we get back.
-        $bot->reply($this->photos->byBreed($name));
+
+        //Check if Image Link is avaliable
+        if (preg_match('/https:\/\//', $this->photos->byBreed($name))) {
+            // Create attachment
+            $attachment = new Image($this->photos->byBreed($name), [
+                'custom_payload' => true,
+            ]);
+            //Get Breed Name
+            $randomBreed = explode('/', $this->photos->byBreed($name))[4];
+            // Build message object
+            $message = OutgoingMessage::create('Breed: ' . ucfirst($randomBreed) . '
+                %0A 
+                Source: https://dog.ceo')->withAttachment($attachment);
+            // Reply message object
+            $bot->reply($message);
+        }else {
+            $bot->reply($this->photos->byBreed($name));
+        }
     }
 
 }

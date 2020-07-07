@@ -16,6 +16,6 @@ class ConversationController extends Controller
     {
         // We use the startConversation method provided by botman to start a new conversation and pass
         // our conversation class as a param to it.
-        $bot->startConversation(new DefaultConversation);
+        $bot->startConversation(new DefaultConversation());
     }
 }

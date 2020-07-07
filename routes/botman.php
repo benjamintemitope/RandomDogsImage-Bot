@@ -9,29 +9,26 @@ $botman->hears('/start', function ($bot) {
     $username = $user->getUsername();
     $bot->reply('Hello! ' . $username  . ' 😄');
 });
+//Start Bot
 $botman->hears('/start', 'App\Http\Controllers\ConversationController@index');
-
+//Random Image
 $botman->hears('/random', 'App\Http\Controllers\AllBreedsController@random');
+//Breed Image
 $botman->hears('/b {breed}', 'App\Http\Controllers\AllBreedsController@byBreed');
+//SubBreed Image
 $botman->hears('/s {breed}:{subBreed}', 'App\Http\Controllers\SubBreedController@random');
-
-$botman->fallback('App\Http\Controllers\FallbackController@index');
-
-
+//Developer
 $botman->hears('/dev', function ($bot) {
     $bot->reply('The Developer 🌐: @LookBig');
 });
-
-
+//Return current URL for Testing
 $botman->hears('/url', function ($bot)
 {
     $bot->reply(
         (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
     );
 });
-
-$botman->hears('/help', function($bot)
-{
-    $bot->reply('Welcome to the Help Desk') ;
-});
-
+//Help Desk
+$botman->hears('/help', 'App\Http\Controllers\HelpDeskController@index');
+//Command Error
+$botman->fallback('App\Http\Controllers\FallbackController@index');

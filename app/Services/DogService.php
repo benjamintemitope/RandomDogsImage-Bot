@@ -60,6 +60,7 @@ class DogService
      */
     public function byBreed($breed)
     {
+        $breed = strtolower($breed);
         try {
             // We replace %s    in our endpoint with the given breed name.
             $endpoint = sprintf(self::BREED_ENDPOINT, $breed);
@@ -70,7 +71,7 @@ class DogService
 
             return $response->message;
         } catch (Exception $e) {
-            return "Sorry I couldn\"t get you any photos from $breed. Please try with a different breed.";
+            return "Sorry I couldn't get you any photos from your input ($breed). Please try with a different breed.";
         }
     }
 }

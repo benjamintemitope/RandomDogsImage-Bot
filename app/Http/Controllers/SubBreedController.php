@@ -46,18 +46,7 @@ class SubBreedController extends Controller
                 $this->client->get($endpoint)->getBody()
             );
 
-            // Create attachment
-            $attachment = new Image($response->message, [
-                'custom_payload' => true,
-            ]);
-
-            //Get Breed Name
-            $subBreedName = explode('/', $response->message)[4];
-            // Build message object
-            $message = OutgoingMessage::create('Breed: ' . ucfirst($subBreedName) . '
-Source: https://dog.ceo')->withAttachment($attachment);
-            // Reply message object
-            return $message;
+            return $bot->reply($response->message);
 
             //return $response->message;
         } catch (Exception $e) {

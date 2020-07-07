@@ -18,7 +18,7 @@ class HelpDeskController extends Controller
             Commands Avaliable
 /start - Start,
 /random - Random Dog Breed Image,
-/b {breed} - Get Breed Image. e.g /b boxer
+/b {breed} - Get Breed Image,
 /dev - The Developer
         ');
     }

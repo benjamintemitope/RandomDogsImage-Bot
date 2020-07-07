@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use BotMan\BotMan\Messages\Attachments\Image;
+use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 use Exception;
 use GuzzleHttp\Client;
 
@@ -44,9 +46,20 @@ class DogService
                 $this->client->get(self::RANDOM_ENDPOINT)->getBody()
             );
 
-            // Return the image URL.
-            return $response->message;
-            //return $response->url;
+            //Check if Image Link is avaliable
+        if (preg_match('/https:\/\//', $response->message)) {
+            // Create attachment
+            $attachment = new Image($response->message, [
+                'custom_payload' => true,
+            ]);
+            //Get Breed Name
+            $randomBreed = explode('/', $response->message)[4];
+            // Build message object
+            $message = OutgoingMessage::create('Breed: ' . ucfirst($randomBreed) . '
+Source: https://dog.ceo')->withAttachment($attachment);
+            // Reply message object
+            return $message;
+        }
         } catch (Exception $e) {
             // If anything goes wrong, we will be sending the user this error message.
             return 'An unexpected error occurred. Please try again later.';
@@ -69,7 +82,20 @@ class DogService
                 $this->client->get($endpoint)->getBody()
             );
 
-            return $response->message;
+            //Check if Image Link is avaliable
+        if (preg_match('/https:\/\//', $response->message)) {
+            // Create attachment
+            $attachment = new Image($response->message, [
+                'custom_payload' => true,
+            ]);
+            //Get Breed Name
+            $randomBreed = explode('/', $response->message)[4];
+            // Build message object
+            $message = OutgoingMessage::create('Breed: ' . ucfirst($randomBreed) . '
+Source: https://dog.ceo')->withAttachment($attachment);
+            // Reply message object
+            return $message;
+        }
         } catch (Exception $e) {
             return "Sorry I couldn't get you any photos from your input ($breed). Please try with a different breed.";
         }

@@ -65,7 +65,7 @@ class DefaultConversation extends Conversation
             $randomBreed = explode('/', (new \App\Services\DogService)->random())[4];
             $randomBreed = str_replace('-', ' ', $randomBreed);
             // Build message object
-            $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
+            $message = OutgoingMessage::create("Breed: <b>" . ucwords($randomBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
             // Reply message object
             $this->say($message, ['parse_mode' => 'HTML']);
         }else {
@@ -91,8 +91,8 @@ class DefaultConversation extends Conversation
                 //Get Breed Name
                 $randomBreed = explode('/', (new App\Services\DogService)->byBreed($name))[4];
                 $randomBreed = str_replace('-', ' ', $randomBreed);
-               // Build message object
-                $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br> Source: https://dog.ceo')->withAttachment($attachment);
+                // Build message object
+                $message = OutgoingMessage::create("Breed: <b>" . ucwords($randomBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
                 // Reply message object
                $this->say($message, ['parse_mode' => 'HTML']);
             }else {
@@ -119,7 +119,7 @@ class DefaultConversation extends Conversation
                 $randomBreed = explode('/', (new App\Services\DogService)->bySubBreed($answer[0], $answer[1]))[4];
                 $randomBreed = str_replace('-', ' ', $randomBreed);
                 // Build message object
-                $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
+                $message = OutgoingMessage::create("Breed: <b>" . ucwords($randomBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
                 // Reply message object
                $this->say($message, ['parse_mode' => 'HTML']);
             }else {

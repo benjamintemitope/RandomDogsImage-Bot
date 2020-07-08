@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Services\DogService;
 use App\Http\Controllers\Controller;
+use App\Services\DogService;
 use BotMan\BotMan\Messages\Attachments\Image;
 use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
+use BotMan\Drivers\Telegram\TelegramDriver;
+use Illuminate\Http\Request;
 
 class AllBreedsController extends Controller
 {
@@ -42,11 +42,10 @@ class AllBreedsController extends Controller
             $randomBreed = explode('/', $this->photos->random())[4];
             $randomBreed = str_replace('-', ' ', $randomBreed);
             // Build message object
-            $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
+            $message = OutgoingMessage::create("Breed: <b>" . ucwords($randomBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
             // Reply message object
             $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {
-            $bot->typesAndWaits(2);
             $bot->reply($this->photos->random(), ['parse_mode' => 'HTML']);
         }
     }
@@ -69,7 +68,7 @@ class AllBreedsController extends Controller
             $randomBreed = explode('/', $this->photos->byBreed($name))[4];
             $randomBreed = str_replace('-', ' ', $randomBreed);
             // Build message object
-            $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
+            $message = OutgoingMessage::create("Breed: <b>" . ucwords($randomBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
             // Reply message object
             $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {

@@ -14,14 +14,14 @@ class HelpDeskController extends Controller
      */
     public function index($bot)
     {
-        $bot->reply('
-            Commands Avaliable <br>
-            /start - ▶ Start ,<br> 
-            /random - 🎲 Random Dog Breed Image, <br>
-            /b {breed} - 🖼 Get Breed Image , <br>
-            /s {breed}:{subBreed} - 🖼 Get SubBreed Image , <br>
-            /dev - 👨🏻‍💻 Developer , <br>
+        $bot->reply("
+            Commands Avaliable \n
+            /start - ▶ Start ,\n 
+            /random - 🎲 Random Dog Breed Image, \n
+            /b {breed} - 🖼 Get Breed Image , \n
+            /s {breed}:{subBreed} - 🖼 Get SubBreed Image , \n
+            /dev - 👨🏻‍💻 Developer , \n
             /help - ❔ Help
-        ', ['parse_mode' => 'HTML']);
+        ", ['parse_mode' => 'HTML']);
     }
 }

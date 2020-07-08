@@ -79,7 +79,7 @@ class DefaultConversation extends Conversation
      */
     public function askForBreedName()
     {
-        $this->ask('What\'s the breed name? e.g hound', function (Answer $answer) {
+        $this->ask('What\'s the breed name? e.g <i>bulldog</i>', function (Answer $answer) {
             $name = $answer->getText();
             //Check if Image Link is avaliable
             if (preg_match('/https:\/\//', (new App\Services\DogService)->byBreed($name))) {
@@ -96,7 +96,7 @@ class DefaultConversation extends Conversation
             }else {
                 $this->say((new App\Services\DogService)->byBreed($name), ['parse_mode' => 'HTML']);
             }
-        });
+        }, ['parse_mode' => 'HTML']);
     }
 
     /**
@@ -106,9 +106,8 @@ class DefaultConversation extends Conversation
      */
     public function askForSubBreed()
     {
-        $this->ask('What\'s the breed and sub-breed names? e.g hound:afghan', function (Answer $answer) {
-            $answer = strtolower($answer);
-            $answer = explode(':', $answer->getText());
+        $this->ask('What\'s the breed and sub-breed names? e.g <i>bulldog:english</i>', function (Answer $answer) {
+            $answer = explode(':', strtolower($answer->getText()));
             if (preg_match('/https:\/\//', (new App\Services\DogService)->bySubBreed($answer[0], $answer[1]))) {
                 // Create attachment
                 $attachment = new Image((new App\Services\DogService)->bySubBreed($answer[0], $answer[1]), [
@@ -116,14 +115,15 @@ class DefaultConversation extends Conversation
                 ]);
                 //Get Breed Name
                 $randomBreed = explode('/', (new App\Services\DogService)->bySubBreed($answer[0], $answer[1]))[4];
+                $randomBreed = str_replace('-', ' ', $randomBreed);
                 // Build message object
-                $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
+                $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
                 // Reply message object
                $this->say($message, ['parse_mode' => 'HTML']);
             }else {
                 $this->say((new App\Services\DogService)->bySubBreed($answer[0], $answer[1]), ['parse_mode' => 'HTML']);
             }
-        });
+        }, ['parse_mode' => 'HTML']);
     }
 
     /**

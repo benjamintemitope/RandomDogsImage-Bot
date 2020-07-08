@@ -36,9 +36,9 @@ class SubBreedController extends Controller
             ]);
             //Get Breed Name
             $randomBreed = explode('/', $this->photos->bySubBreed($breed, $subBreed))[4];
+            $randomBreed = str_replace('-', ' ', $randomBreed);
             // Build message object
-            $message = OutgoingMessage::create('Breed: ' . ucfirst($randomBreed) . '
-Source: https://dog.ceo')->withAttachment($attachment);
+            $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
             // Reply message object
             $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {

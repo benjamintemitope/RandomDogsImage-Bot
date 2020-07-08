@@ -63,10 +63,11 @@ class DefaultConversation extends Conversation
             ]);
             //Get Breed Name
             $randomBreed = explode('/', (new \App\Services\DogService)->random())[4];
+            $randomBreed = str_replace('-', ' ', $randomBreed);
             // Build message object
-            $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
+            $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
             // Reply message object
-           $this->say($message, ['parse_mode' => 'HTML']);
+            $this->say($message, ['parse_mode' => 'HTML']);
         }else {
             $this->say((new \App\Services\DogService)->random(), ['parse_mode' => 'HTML']);
         }
@@ -89,8 +90,9 @@ class DefaultConversation extends Conversation
                 ]);
                 //Get Breed Name
                 $randomBreed = explode('/', (new App\Services\DogService)->byBreed($name))[4];
+                $randomBreed = str_replace('-', ' ', $randomBreed);
                // Build message object
-                $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b> <br> Source: https://dog.ceo')->withAttachment($attachment);
+                $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br> Source: https://dog.ceo')->withAttachment($attachment);
                 // Reply message object
                $this->say($message, ['parse_mode' => 'HTML']);
             }else {

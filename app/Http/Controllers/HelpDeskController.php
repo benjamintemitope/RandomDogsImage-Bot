@@ -15,12 +15,13 @@ class HelpDeskController extends Controller
     public function index($bot)
     {
         $bot->reply('
-            Commands Avaliable 
-            /start - Start <br>, 
-            /random - Random Dog Breed Image <br>, 
-            /b {breed} - Get Breed Image <br>, 
-            /s {breed}:{subBreed} - Get SubBreed Image <br>,
-            /dev - Developer
+            Commands Avaliable <br>
+            /start - ▶ Start ,<br> 
+            /random - 🎲 Random Dog Breed Image, <br>
+            /b {breed} - 🖼 Get Breed Image , <br>
+            /s {breed}:{subBreed} - 🖼 Get SubBreed Image , <br>
+            /dev - 👨🏻‍💻 Developer , <br>
+            /help - ❔ Help
         ', ['parse_mode' => 'HTML']);
     }
 }

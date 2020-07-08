@@ -58,8 +58,8 @@
             <h1 class="text-capitalize">Random Dogs</h1>
         </div>
         <div class="links" align="center">
-            <a href="https://t.me/random_dogs_php_bot" target="_blank">Telegram</a>
-            <a href="https://t.me/LookBig" target="_blank">Developer</a>
+            <a href="https://t.me/{{ env('TELEGRAM_USERNAME', 'RandomDogsImage_bot') }}" target="_blank">Telegram</a>
+            <a href="https://t.me/{{ env('DEV_USERNAME', 'LookBig') }}" target="_blank">Developer</a>
         </div>
     </div>
 </div>

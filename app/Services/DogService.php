@@ -60,6 +60,7 @@ class DogService
      */
     public function byBreed($breed)
     {
+        $breed = strtolower($breed);
         try {
             // We replace %s    in our endpoint with the given breed name.
             $endpoint = sprintf(self::BREED_ENDPOINT, $breed);
@@ -82,6 +83,7 @@ class DogService
      */
     public function bySubBreed($breed, $subBreed)
     {
+        $breed = strtolower($breed);
         try {
             $endpoint = sprintf(self::SUB_BREED_ENDPOINT, $breed, $subBreed);
 

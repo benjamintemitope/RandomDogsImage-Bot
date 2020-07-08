@@ -43,13 +43,6 @@ class AllBreedsController extends Controller
             $randomBreed = str_replace('-', ' ', $randomBreed);
             // Build message object
             $message = OutgoingMessage::create('Breed: <b>' . ucwords($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
-            // Send Dice Animated Sticker
-            $bot->sendRequest('sendSticker', [
-                'sticker' => 'CAACAgIAAxkBAAEBBGhfBOSYqHcypPTn9rBRDDu5h3IZ4AACYm4AAp7OCwABPf4vNIQDD-0aBA',
-                'is_animated' => true
-            ]);
-            //Wait
-            $bot->typesAndWaits(2);
             // Reply message object
             $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {

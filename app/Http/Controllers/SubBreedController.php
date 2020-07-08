@@ -40,9 +40,9 @@ class SubBreedController extends Controller
             $message = OutgoingMessage::create('Breed: ' . ucfirst($randomBreed) . '
 Source: https://dog.ceo')->withAttachment($attachment);
             // Reply message object
-            $bot->reply($message);
+            $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {
-            $bot->reply($this->photos->bySubBreed($breed, $subBreed));
+            $bot->reply($this->photos->bySubBreed($breed, $subBreed), ['parse_mode' => 'HTML']);
         }
     }
 }

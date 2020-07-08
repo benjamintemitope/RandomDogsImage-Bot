@@ -64,8 +64,7 @@ class DefaultConversation extends Conversation
             //Get Breed Name
             $randomBreed = explode('/', (new \App\Services\DogService)->random())[4];
             // Build message object
-            $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b>
-Source: https://dog.ceo')->withAttachment($attachment);
+            $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
             // Reply message object
            $this->say($message, ['parse_mode' => 'HTML']);
         }else {
@@ -91,8 +90,7 @@ Source: https://dog.ceo')->withAttachment($attachment);
                 //Get Breed Name
                 $randomBreed = explode('/', (new App\Services\DogService)->byBreed($name))[4];
                // Build message object
-                $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b>
-Source: https://dog.ceo')->withAttachment($attachment);
+                $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b> <br> Source: https://dog.ceo')->withAttachment($attachment);
                 // Reply message object
                $this->say($message, ['parse_mode' => 'HTML']);
             }else {
@@ -119,8 +117,7 @@ Source: https://dog.ceo')->withAttachment($attachment);
                 //Get Breed Name
                 $randomBreed = explode('/', (new App\Services\DogService)->bySubBreed($answer[0], $answer[1]))[4];
                 // Build message object
-                $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b>
-Source: https://dog.ceo')->withAttachment($attachment);
+                $message = OutgoingMessage::create('Breed: <b>' . ucfirst($randomBreed) . '</b> <br>Source: https://dog.ceo')->withAttachment($attachment);
                 // Reply message object
                $this->say($message, ['parse_mode' => 'HTML']);
             }else {

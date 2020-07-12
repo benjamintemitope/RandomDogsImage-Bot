@@ -94,7 +94,7 @@ class DogService
         } catch (Exception $e) {
             $breed = ucfirst($breed);
             $subBreed = ucfirst($subBreed);
-            return "Sorry I couldn't get you any photos from  your input <b>$breed, $subBreed</b>. Please try with a different breed.";
+            return "Sorry I couldn't get you any photos from  your input <b>$breed $subBreed</b>. Please try with a different breed.";
         }
     }
 }

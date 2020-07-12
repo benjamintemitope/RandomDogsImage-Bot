@@ -92,7 +92,7 @@ class DogService
             );
             return $response->message;
         } catch (Exception $e) {
-            return "Sorry I couldn't get you any photos from  your input <b>$breed</b>. Please try with a different breed.";
+            return "Sorry I couldn't get you any photos from  your input <b>$breed, $subBreed</b>. Please try with a different breed.";
         }
     }
 }

@@ -17,24 +17,17 @@ $botman->hears('/random', 'App\Http\Controllers\AllBreedsController@random');
 $botman->hears('/b {breed}', 'App\Http\Controllers\AllBreedsController@byBreed');
 //Breed Command
 $botman->hears('/b',function ($bot) {
-    $bot->reply("Invalid Respond!\n<b>Usage</b>: /b {breed} \ne.g /b hound", ['parse_mode' => 'HTML']);
+    $bot->reply("Invalid Respond!\n<b>Usage</b>: /b {breed} \n<code>e.g /b hound</code>", ['parse_mode' => 'HTML']);
 });
 //SubBreed Image
 $botman->hears('/s {breed}:{subBreed}', 'App\Http\Controllers\SubBreedController@random');
 //Breed Command
 $botman->hears('/s',function ($bot) {
-    $bot->reply("Invalid Respond!\n<b>Usage</b>: /s {breed}:{subBreed} \ne.g /s hound:afghan", ['parse_mode' => 'HTML']);
+    $bot->reply("Invalid Respond!\n<b>Usage</b>: /s {breed}:{subBreed} \n<code>e.g /s hound:afghan</code>", ['parse_mode' => 'HTML']);
 });
 //Developer
 $botman->hears('/dev', function ($bot) {
     $bot->reply('The Developer 🌐: @LookBig');
-});
-//Return current URL for Testing
-$botman->hears('/url', function ($bot)
-{
-    $bot->reply(
-        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
-    );
 });
 //Help Desk
 $botman->hears('/help', 'App\Http\Controllers\HelpDeskController@index');

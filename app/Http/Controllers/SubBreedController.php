@@ -28,21 +28,33 @@ class SubBreedController extends Controller
      */
     public function random($bot, $breed, $subBreed)
     {
-        //Check if Image Link is avaliable
-        if (preg_match('/https:\/\//',$this->photos->bySubBreed($breed, $subBreed))) {
-            // Create attachment
-            $attachment = new Image($this->photos->bySubBreed($breed, $subBreed), [
+        $breedURL = $this->photos->bySubBreed($breed, $subBreed);
+
+        if (preg_match('/https:\/\//', $breedURL)) {
+
+            $attachment = new Image($breedURL, [
                 'custom_payload' => true,
             ]);
-            //Get Breed Name
-            $randomBreed = explode('/', $this->photos->bySubBreed($breed, $subBreed))[4];
-            $randomBreed = str_replace('-', ' ', $randomBreed);
-            // Build message object
-            $message = OutgoingMessage::create("Breed: <b>" . ucwords($randomBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
-            // Reply message object
+
+            $nameBreed = explode('/', $breedURL)[4];
+            $nameBreed = str_replace('-', ' ', $nameBreed);
+
+            $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\n\nSource: https://dog.ceo")->withAttachment($attachment);
+
+            $bot->typesAndWaits(1);
             $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {
-            $bot->reply($this->photos->bySubBreed($breed, $subBreed), ['parse_mode' => 'HTML']);
+
+            $bot->reply($breedURL, ['parse_mode' => 'HTML']);
         }
+    }
+
+    public function fallback($bot)
+    {
+        $bot->reply("Invalid Respond! \n\n<b>Usage</b>:  /s {breed}:{subBreed} \n\ne.g <code>/s hound:afghan</code>",
+        [
+            'parse_mode' => 'HTML'
+        ]
+);
     }
 }

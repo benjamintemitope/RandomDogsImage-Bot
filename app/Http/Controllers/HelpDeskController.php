@@ -15,7 +15,15 @@ class HelpDeskController extends Controller
     public function index($bot)
     {
         $bot->reply("
-            Commands Avaliable \n/start - ▶ Start ,\n/random - 🎲 Random Dog Breed Image, \n/b {breed} - 🖼 Get Breed Image , \n/s {breed}:{subBreed} - 🖼 Get SubBreed Image , \n/dev - 👨🏻‍💻 Developer , \n/help - ❓ Help
+            <b>Commands Available </b>
+\n/start - ▶ Start ,
+\n/random - 🎲 Random Dog Breed Image, 
+\n/b {breed} - 🖼 Get Breed Image , 
+\n/bs {breed} - 🔎 Search Breed,  
+\n/s {breed}:{subBreed} - 🖼 Get SubBreed Image , 
+\n/ss {subBreed} - 🔎 Search SubBreed, 
+\n/dev - 👨🏻‍💻 Developer , 
+\n/help - ❓ Help
         ", ['parse_mode' => 'HTML']);
     }
 }

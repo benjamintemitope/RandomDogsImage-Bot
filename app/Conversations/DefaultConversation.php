@@ -67,6 +67,8 @@ class DefaultConversation extends Conversation
             // Build message object
             $message = OutgoingMessage::create("Breed: <b>" . ucwords($randomBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
             // Reply message object
+            $this->bot->typesAndWaits(1);
+
             $this->say($message, ['parse_mode' => 'HTML']);
         }else {
             $this->say((new \App\Services\DogService)->random(), ['parse_mode' => 'HTML']);

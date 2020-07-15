@@ -13,9 +13,11 @@ class DogService
     const RANDOM_ENDPOINT = 'https://dog.ceo/api/breeds/image/random';
     // The endpoint we will hit to get a random image by a given breed name.
     const BREED_ENDPOINT = 'https://dog.ceo/api/breed/%s/images/random';
-    // The endpoint we will hit to get a random image by a given breed name.
+    // The endpoint we will hit to get a random image by a given subBreed name.
     const SUB_BREED_ENDPOINT = 'https://dog.ceo/api/breed/%s/%s/images/random';
-    
+    // The endpoint to fecth all avaliable breeds and subBreeds
+    const ALL_BREED_ENDPOINT = 'https://dog.ceo/api/breeds/list/all';
+
     /**
      * Guzzle client.
      *
@@ -60,17 +62,13 @@ class DogService
      */
     public function byBreed($breed)
     {
-        $breed = strtolower($breed);
         try {
-            // We replace %s    in our endpoint with the given breed name.
+            $breed = strtolower($breed);
             $endpoint = sprintf(self::BREED_ENDPOINT, $breed);
-
-            $response = json_decode(
-                $this->client->get($endpoint)->getBody()
-            );
-
+            $response = json_decode($this->client->get($endpoint)->getBody());
             return $response->message;
         } catch (Exception $e) {
+            $breed = ucfirst($breed);
             return "Sorry I couldn't get you any photos from your input <b>$breed</b>. Please try with a different breed.";
         }
     }
@@ -83,10 +81,9 @@ class DogService
      */
     public function bySubBreed($breed, $subBreed)
     {
-        $breed = strtolower($breed);
         try {
+            $breed = strtolower($breed);
             $endpoint = sprintf(self::SUB_BREED_ENDPOINT, $breed, $subBreed);
-
             $response = json_decode(
                 $this->client->get($endpoint)->getBody()
             );
@@ -96,5 +93,20 @@ class DogService
             $subBreed = ucfirst($subBreed);
             return "Sorry I couldn't get you any photos from  your input <b>$breed $subBreed</b>. Please try with a different breed.";
         }
+    }
+
+    /**
+     *  Fetch and return all breeds and its sub-breeds.
+     *
+     * 
+     * @return array
+    **/
+
+    public function allBreeds()
+    {
+        $response = json_decode(
+            $this->client->get(self::ALL_BREED_ENDPOINT)->getBody()
+        );
+        return (array) $response->message;
     }
 }

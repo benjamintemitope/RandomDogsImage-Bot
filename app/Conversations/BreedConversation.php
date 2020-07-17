@@ -18,12 +18,12 @@ class BreedConversation extends Conversation
     */
     public function defaultQuestion()
     {
-        $question = Question::create('Huh - What breed are you looking for? ');
+        $question = Question::create('Huh - What breed are you looking for? e.g whippet');
         // We ask our user the question.
         $this->ask($question, function (Answer $answer) {
             // We fetch the user entry from the endpoint
             if ($answer->getText()) {
-                (new \App\Http\Controllers\SearchBreedsController)->byBreed($this, strval($answer->getText()));
+                (new \App\Http\Controllers\SearchBreedsController)->byBreed($this, strval(strtolower($answer->getText())));
             }
         });
     }

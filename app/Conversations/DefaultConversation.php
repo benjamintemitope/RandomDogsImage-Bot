@@ -26,6 +26,7 @@ class DefaultConversation extends Conversation
                 Button::create('🎲 Random Dog photo')->value('random'),
                 Button::create('🖼 A photo by breed')->value('breed'),
                 Button::create('🖼 A photo by sub-breed')->value('sub-breed'),
+                Button::create('❓ Help Center')->value('help'),
             ]);
 
         // We ask our user the question.
@@ -43,6 +44,9 @@ class DefaultConversation extends Conversation
                     case 'sub-breed':
                         $this->askForSubBreed();
                         break;
+                    case 'help':
+                        $this->help();
+                    break;
                 }
             }
         });
@@ -83,7 +87,7 @@ class DefaultConversation extends Conversation
     public function askForBreedName()
     {
         $this->ask('What\'s the breed name? e.g <i>bulldog</i>', function (Answer $answer) {
-            $name = $answer->getText();
+            $name = strval(strtolower($answer->getText()));
             //Check if Image Link is avaliable
             if (preg_match('/https:\/\//', (new App\Services\DogService)->byBreed($name))) {
                 // Create attachment
@@ -111,7 +115,7 @@ class DefaultConversation extends Conversation
     public function askForSubBreed()
     {
         $this->ask('What\'s the breed and sub-breed names? e.g <i>bulldog:english</i>', function (Answer $answer) {
-            $answer = explode(':', strtolower($answer->getText()));
+            $answer = explode(':', strval(strtolower($answer->getText())));
             if (preg_match('/https:\/\//', (new App\Services\DogService)->bySubBreed($answer[0], $answer[1]))) {
                 // Create attachment
                 $attachment = new Image((new App\Services\DogService)->bySubBreed($answer[0], $answer[1]), [
@@ -130,6 +134,25 @@ class DefaultConversation extends Conversation
         }, ['parse_mode' => 'HTML']);
     }
 
+    /**
+     * Help Center
+     *
+     * @return void
+    */
+    public function help()
+    {
+        $this->say("
+            <b>❓ Help Desk</b> \n <i>Commands Available </i>
+\n/start - ▶ Start ,
+\n/random - 🎲 Random Dog Breed Image, 
+\n/b {breed} - 🖼 Get Breed Image , 
+\n/bs {breed} - 🔎 Search Breed,  
+\n/s {breed}:{subBreed} - 🖼 Get SubBreed Image , 
+\n/ss {subBreed} - 🔎 Search SubBreed, 
+\n/dev - 👨🏻‍💻 Developer , 
+\n/help - ❓ Help
+        ", ['parse_mode' => 'HTML']);
+    }
     /**
      * Start the conversation
      *

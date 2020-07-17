@@ -16,7 +16,7 @@ $botman->hears('/start', 'App\Http\Controllers\ConversationController@index');
 $botman->hears('/random', 'App\Http\Controllers\AllBreedsController@random');
 
 //Breed Commands
-$botman->hears('/b {breed}', 'App\Http\Controllers\BreedsController@byBreed');
+$botman->hears('/b {breed}', 'App\Http\Controllers\BreedController@byBreed');
 $botman->hears(['/b', '/bs'], 'App\Http\Controllers\ConversationController@byBreed');
 $botman->hears('/bs {breed}', 'App\Http\Controllers\SearchBreedsController@byBreed');
 

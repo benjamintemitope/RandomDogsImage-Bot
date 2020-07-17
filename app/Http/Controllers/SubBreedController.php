@@ -28,23 +28,18 @@ class SubBreedController extends Controller
      */
     public function random($bot, $breed, $subBreed)
     {
+        $breed = strtolower($breed);
+        $subBreed = strtolower($subBreed);
         $breedURL = $this->endpoint->bySubBreed($breed, $subBreed);
-
         if (preg_match('/https:\/\//', $breedURL)) {
-
             $attachment = new Image($breedURL, [
                 'custom_payload' => true,
             ]);
-
             $nameBreed = explode('/', $breedURL)[4];
             $nameBreed = str_replace('-', ' ', $nameBreed);
-
             $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\n\nSource: https://dog.ceo")->withAttachment($attachment);
-
-            $bot->typesAndWaits(1);
             $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {
-
             $bot->reply($breedURL, ['parse_mode' => 'HTML']);
         }
     }

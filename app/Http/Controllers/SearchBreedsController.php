@@ -15,21 +15,20 @@ class SearchBreedsController extends Controller
 {
     public $searchEntry = [];
 
-    public function searchBreed($bot, $text)
+    public function byBreed($bot, $text)
     {
+        $text = strval($text);
         //Make Search Entries from all Breeds Available
         $allBreeds = (new \App\Services\DogService)->allBreeds();
         foreach ($allBreeds as $breed => $subBreed) {
-            if (preg_match("/{$text}/i", $breed)) {
+            if (preg_match("#{$text}#i", $breed)) {
                 $this->searchEntry[] .= $breed;   
             }   
         }
 
         //Search Results
         if (!empty($this->searchEntry)) {
-
             $question = Question::create('Search Results for ' . ucwords($text));
-
             foreach ($this->searchEntry as $entry) {
                 $question->addButtons([
                     Button::create(ucwords($entry))->value($entry)
@@ -39,20 +38,13 @@ class SearchBreedsController extends Controller
             //Returning Search Results
             return $bot->ask($question,function (Answer $answer) {
                 if ($answer->isInteractiveMessageReply()) {
-
                     $selectedValue = $answer->getValue();
-
                     $breedURL = (new \App\Services\DogService)->byBreed($selectedValue);
-
                     if (preg_match('/https:\/\//', $breedURL)) {
-
                         $attachment = new Image($breedURL, ['custom_payload' => true,]);
-
                         $nameBreed = explode('/', $breedURL)[4];
                         $nameBreed = str_replace('-', ' ', $nameBreed);
-
                         $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\n\nSource: https://dog.ceo")->withAttachment($attachment);
-
                         $this->say($message, ['parse_mode' => 'HTML']);
                     }
                 }
@@ -62,13 +54,14 @@ class SearchBreedsController extends Controller
         }
     }
 
-    public function searchSubBreed($bot, $text)
+    public function bySubBreed($bot, $text)
     {
+        $text = strval($text);
         //Make Search Entries from all Breeds Available
         $allBreeds = (new \App\Services\DogService)->allBreeds();
         foreach ($allBreeds as $breed => $subBreed) {
-            if (preg_grep("/{$text}/i", $subBreed)) {
-                $this->searchEntry[$breed] = preg_grep("/{$text}/i", $subBreed);   
+            if (preg_grep("#{$text}#i", $subBreed)) {
+                $this->searchEntry[$breed] = preg_grep("#{$text}#i", $subBreed);   
             }   
         }
         //Search Results
@@ -84,23 +77,17 @@ class SearchBreedsController extends Controller
              //Returning Search Results
             return $bot->ask($question,function (Answer $answer) {
                 if ($answer->isInteractiveMessageReply()) {
-
                     $selectedValue = explode(':', $answer->getValue());
                     $breedURL = (new \App\Services\DogService)->bySubBreed($selectedValue[0], $selectedValue[1]);
-
                     if (preg_match('/https:\/\//', $breedURL)) {
-
                         $attachment = new Image(
                             $breedURL, [
                                 'custom_payload' => true,
                             ]
                         );
-
                         $nameBreed = explode('/', $breedURL)[4];
                         $nameBreed = str_replace('-', ' ', $nameBreed);
-
                         $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\n\nSource: https://dog.ceo")->withAttachment($attachment);
-
                         $this->say($message, ['parse_mode' => 'HTML']);
                     }
                 }
@@ -110,7 +97,7 @@ class SearchBreedsController extends Controller
         }
     }
 
-    public function searchBreedFallback($bot)
+    public function byBreedFallback($bot)
     {
         $bot->reply("Invalid Respond! \n\n<b>Usage</b>: /bs {breed} \n\ne.g <code>/bs whippet</code>",
         [
@@ -118,7 +105,7 @@ class SearchBreedsController extends Controller
         ]);
     }
 
-    public function searchSubBreedFallback($bot)
+    public function bySubBreedFallback($bot)
     {
         $bot->reply("Invalid Respond! \n\n<b>Usage</b>: /ss {subBreed} \n\ne.g <code>/ss staffordshire</code>",
         [

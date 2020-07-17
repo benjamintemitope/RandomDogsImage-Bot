@@ -21,7 +21,7 @@ class AllBreedsController extends Controller
      */
     public function __construct()
     {
-        $this->photos = new DogService;
+        $this->endpoint = new DogService;
     }
 
     /**
@@ -31,60 +31,19 @@ class AllBreedsController extends Controller
      */
     public function random($bot)
     {
-        // $this->photos->random() is basically the photo URL returned from the service.
+        // $this->endpoint->random() is basically the photo URL returned from the service.
         // $bot->reply is what we will use to send a message back to the user.
-        
-        $breedURL = $this->photos->random();
-
+        $breedURL = $this->endpoint->random();
         if (preg_match('/https:\/\//', $breedURL)) {
-
             $attachment = new Image($breedURL, [
                 'custom_payload' => true,
             ]);
-            
             $nameBreed = explode('/', $breedURL)[4];
             $nameBreed = str_replace('-', ' ', $nameBreed);
-
             $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\n\nSource: https://dog.ceo")->withAttachment($attachment);
-            $bot->typesAndWaits(1);
             $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {
-            $bot->reply($this->photos->random(), ['parse_mode' => 'HTML']);
+            $bot->reply($this->endpoint->random(), ['parse_mode' => 'HTML']);
         }
-    }
-    /**
-     * Return a random dog image from a given breed.
-     *
-     * @return void
-     */
-    public function byBreed($bot, $name)
-    {
-        // Because we used a wildcard in the command definition, Botman will pass it to our method.
-        // Again, we let the service class handle the API call and we reply with the result we get back.
-        $breedURL = $this->photos->byBreed($name);
-        if (preg_match('/https:\/\//', $breedURL)) {
-
-            $attachment = new Image($breedURL, [
-                'custom_payload' => true,
-            ]);
-
-            $nameBreed = explode('/', $breedURL)[4];
-            $nameBreed = str_replace('-', ' ', $nameBreed);
-
-            $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
-
-            $bot->typesAndWaits(1);
-            $bot->reply($message, ['parse_mode' => 'HTML']);
-        }else {
-            $bot->reply($this->photos->byBreed($name), ['parse_mode' => 'HTML']);
-        }
-    }
-
-    public function fallback($bot)
-    {
-        $bot->reply("Invalid Respond! \n\n<b>Usage</b>: /b {breed} \n\ne.g <code>/b hound</code>",
-        [
-            'parse_mode' => 'HTML'
-        ]);
     }
 }

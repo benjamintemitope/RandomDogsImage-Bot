@@ -18,7 +18,7 @@ class SubBreedController extends Controller
      */
     public function __construct()
     {
-        $this->photos = new DogService;
+        $this->endpoint = new DogService;
     }
 
     /**
@@ -28,7 +28,7 @@ class SubBreedController extends Controller
      */
     public function random($bot, $breed, $subBreed)
     {
-        $breedURL = $this->photos->bySubBreed($breed, $subBreed);
+        $breedURL = $this->endpoint->bySubBreed($breed, $subBreed);
 
         if (preg_match('/https:\/\//', $breedURL)) {
 

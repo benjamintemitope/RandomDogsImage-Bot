@@ -4,10 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#45a6b3" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#45a6b3">
+    <meta name="msapplication-navbutton-color" content="#45a6b3">
     <title>Random Dogs</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" type="text/css">
+    <link rel="icon" sizes="192x192" href="/photo.jpg">
     <link rel="icon" href="/photo.jpg" />
     <!-- Styles -->
     <style>
@@ -58,11 +61,11 @@
             <h1 class="text-capitalize">Random Dogs</h1>
         </div>
         <div class="links" align="center">
-            <a href="https://t.me/{{ env('TELEGRAM_USERNAME', 'RandomDogsImage_bot') }}" target="_blank">Telegram</a>
-            <a href="https://t.me/{{ env('DEV_USERNAME', 'LookBig') }}" target="_blank">Developer</a>
+            <a href="https://t.me/{{ env('TELEGRAM_USERNAME', 'RandomDogsImage_bot') }}">Telegram</a>
+            <a href="https://t.me/{{ env('DEV_USERNAME', 'LookBig') }}">Developer</a>
         </div>
     </div>
 </div>
-<script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+{{-- "<script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>" --}}
 </body>
 </html>

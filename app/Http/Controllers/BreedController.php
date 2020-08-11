@@ -46,22 +46,4 @@ class BreedController extends Controller
             $bot->reply($this->endpoint->byBreed($name), ['parse_mode' => 'HTML']);
         }
     }
-
-    /**
-     * Return a random dog image from a given breed via Conversation.
-     *
-     * @return void
-    */
-    public function index($bot, $name)
-    {
-        
-    }
-
-    public function fallback($bot)
-    {
-        $bot->reply("Invalid Respond! \n\n<b>Usage</b>: /b {breed} \n\ne.g <code>/b hound</code>",
-        [
-            'parse_mode' => 'HTML'
-        ]);
-    }
 }

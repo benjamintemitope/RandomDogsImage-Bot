@@ -96,20 +96,4 @@ class SearchBreedsController extends Controller
             $bot->say('No result found for <b>' . ucwords($text) . '</b> SubBreed', ['parse_mode' => 'HTML']);
         }
     }
-
-    public function byBreedFallback($bot)
-    {
-        $bot->reply("Invalid Respond! \n\n<b>Usage</b>: /bs {breed} \n\ne.g <code>/bs whippet</code>",
-        [
-            'parse_mode' => 'HTML'
-        ]);
-    }
-
-    public function bySubBreedFallback($bot)
-    {
-        $bot->reply("Invalid Respond! \n\n<b>Usage</b>: /ss {subBreed} \n\ne.g <code>/ss staffordshire</code>",
-        [
-            'parse_mode' => 'HTML'
-        ]);
-    }
 }

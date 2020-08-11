@@ -25,4 +25,5 @@ return [
     |
     */
     'user_cache_time' => 30,
+    
 ];

@@ -14,6 +14,8 @@ class FallbackController extends Controller
      */
     public function index($bot)
     {
+        //Log Error
+        \Log::info(print_r($bot->getMessage(),true));
         $bot->reply('Sorry, I did not understand these commands. Try: /help');
     }
 }

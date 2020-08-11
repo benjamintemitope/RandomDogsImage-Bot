@@ -12,7 +12,7 @@ use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 
 
-class DefaultConversation extends Conversation
+class NewConversation extends Conversation
 {
 
     /**

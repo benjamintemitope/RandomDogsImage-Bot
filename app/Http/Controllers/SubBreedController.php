@@ -43,13 +43,4 @@ class SubBreedController extends Controller
             $bot->reply($breedURL, ['parse_mode' => 'HTML']);
         }
     }
-
-    public function fallback($bot)
-    {
-        $bot->reply("Invalid Respond! \n\n<b>Usage</b>:  /s {breed}:{subBreed} \n\ne.g <code>/s hound:afghan</code>",
-        [
-            'parse_mode' => 'HTML'
-        ]
-);
-    }
 }

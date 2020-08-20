@@ -76,6 +76,11 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'chat' => [
+          'driver' => 'single',
+          'path' => storage_path('logs/chatlogs.log'),
+       ],
     ],
 
 ];

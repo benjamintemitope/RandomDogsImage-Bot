@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ConversationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,14 +18,12 @@ Route::get('/', function () {
 });
 
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
-Route::get('/botman/tinker', function () {
-    return redirect('https://www.youtube.com/watch?v=ndsEQLgidyU');
-});
-Route::get('/wp-admin', function () {
-    return redirect('https://www.youtube.com/watch?v=ndsEQLgidyU');
-});
-Route::get('/login', function () {
-    return redirect('https://www.youtube.com/watch?v=ndsEQLgidyU');
-});
-//Route::get('/botman/tinker', 'BotManController@tinker');
 
+Auth::routes();
+
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+
+//Send Conversation
+Route::post('send/{id}', 'SendConversation@sendConversation');
+
+/*Route::get('/botman/tinker', 'BotManController@tinker');*/

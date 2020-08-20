@@ -23,7 +23,7 @@ class BreedConversation extends Conversation
         $this->ask($question, function (Answer $answer) {
             // We fetch the user entry from the endpoint
             if ($answer->getText()) {
-                (new \App\Http\Controllers\SearchBreedsController)->byBreed($this, strval(strtolower($answer->getText())));
+                (new \App\Http\Controllers\SearchBreedsController)->byBreed($this,strval($answer->getText()));
             }
         });
     }

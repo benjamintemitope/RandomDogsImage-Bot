@@ -24,10 +24,9 @@ class DefaultConversation extends Conversation
     {
         // We first create our question and set the options and their values.
         // We ask our user the question.
-        return $this->ask('Huh - What do you need?', function (Answer $answer) {
-            \Log::info(print_r($answer->getMessage()->getPayload()['chat']['id'],true));
-            /*$this->say($answer->getValue());*/
-            // Did the user click on an option or entered a text?
+        $name = $this->bot->getUser()
+                ->getInfo()['user']['first_name'];
+        return $this->ask('Hey! ' . $name .', What do you need?', function (Answer $answer) {
         }, $this->keyboard());
     }
 
@@ -42,6 +41,11 @@ class DefaultConversation extends Conversation
         $this->defaultQuestion();
     }
 
+    /**
+     * Inline Keyboard
+     * 
+     * @return void
+     */
     public function keyboard()
     {
             return Keyboard::create()
@@ -49,7 +53,7 @@ class DefaultConversation extends Conversation
                 ->resizeKeyboard()
                 ->addRow(KeyboardButton::create('🎲 Random Dog Image')->callbackData('random'))
                 ->addRow(
-                    KeyboardButton::create('🖼 A Image by breed')->callbackData('breed'),
+                    KeyboardButton::create('🖼 A Image by Breed')->callbackData('breed'),
                     KeyboardButton::create('🖼 A Image by Sub-Breed')->callbackData('sub-breed'))
                 ->addRow(
                     KeyboardButton::create('❓ Help Center')->callbackData('help'))

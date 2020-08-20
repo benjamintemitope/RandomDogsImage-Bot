@@ -104,9 +104,14 @@ class DogService
 
     public function allBreeds()
     {
-        $response = json_decode(
-            $this->client->get(self::ALL_BREED_ENDPOINT)->getBody()
-        );
-        return (array) $response->message;
+        try {
+            $response = json_decode(
+                $this->client->get(self::ALL_BREED_ENDPOINT)->getBody()
+            );
+            return (array) $response->message;
+        } catch (Exception $e) {
+            return "Sorry unable to get breed lists";
+        }
+        
     }
 }

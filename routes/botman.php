@@ -1,47 +1,38 @@
 <?php
-use App\Http\Controllers\BotManController;
+use App\Conversations\DefaultConversation;
 use App\Conversations\StartConversation;
+use App\Http\Controllers\BotManController;
+use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\SubscriberGroupController;
 use BotMan\Drivers\Telegram\TelegramDriver;
 
 $botman = resolve('botman');
 
-//Start Bot
-$botman->hears(['/start', '/start@{username}'], function ($bot) {
-    $user = $bot->getUser();
-    $username = $user->getUsername();
-    $bot->reply('Hello! ' . $username);
-});
+//Start command
 $botman->hears(['/start', '/start@{username}'], 'App\Http\Controllers\ConversationController@index');
 
-//Random Image
+//Random Breed Command
 $botman->hears(['/random', '🎲 Random Dog Image', '/random@{username}'], 'App\Http\Controllers\AllBreedsController@random');
 
-
-/**
- * Breed Commands
- */
-//Fetch {breed}
+//Breed Query Command
 $botman->hears('/b {breed}', 'App\Http\Controllers\BreedController@byBreed');
-//Breed Search
-$botman->hears(['/b', '/bs', '/b@{username}', '/bs@{username}', '🖼 A Image by breed'], 'App\Http\Controllers\ConversationController@byBreed');
-//Breed Search {breed}
+
+//Search Breed
+$botman->hears(['/b', '/bs', '/b@{username}', '/bs@{username}', '🖼 A Image by Breed'], 'App\Http\Controllers\ConversationController@byBreed');
+
+//Search Breed Query Command
 $botman->hears('/bs {breed}', 'App\Http\Controllers\SearchBreedsController@byBreed');
 
-
-/**
- * Sub-breed Commands
- */
-
-//Fetch {breed}:{subBreed}
+//SubBreed Query Command
 $botman->hears('/s {breed}:{subBreed}', 'App\Http\Controllers\SubBreedController@random');
-//Sub-Breed Search
+
+//Search Sub-Breed Command
 $botman->hears(['/s', '/ss', '/s@{username}', '/ss@{username}', '🖼 A Image by Sub-Breed'], 'App\Http\Controllers\ConversationController@bySubBreed');
-//Sub-Breed Search {subBreed}
+
+//Search Sub-Breed Query Command
 $botman->hears('/ss {subBreed}', 'App\Http\Controllers\SearchBreedsController@bySubBreed');
 
-
-
-//Developer
+//Developer Command
 $botman->hears(['/dev', '/dev@{username}'], function ($bot) {
     $bot->reply('The Developer 🌐: @LookBig');
 });
@@ -52,9 +43,22 @@ $botman->hears(['/help', '/help@{username}', '❓ Help Center'], 'App\Http\Contr
 //Command Error
 $botman->fallback('App\Http\Controllers\FallbackController@index');
 
-//Sticker Send
-$botman->hears('dice', function($bot){
+//Stickers Commads
+$botman->hears(['dog', 'dog@{username}', '/dog', '/dog@{username}'], function($bot){
     $bot->sendRequest('sendSticker', [
-        'sticker' => 'CAACAgIAAxkBAAEBBGhfBOSYqHcypPTn9rBRDDu5h3IZ4AACYm4AAp7OCwABPf4vNIQDD-0aBA'
+        'sticker' => 'CAACAgIAAxkBAAEBMphfNcnSmApYpPM-LkCwmAeLHwABufgAAg8CAAI2diAOgId0VJ7dIYIaBA'
     ]);
 });
+
+$botman->hears(['stop', 'stop@{username}', '/stop', '/stop@{username}'], function($bot){
+    $bot->sendRequest('sendSticker', [
+        'sticker' => 'CAACAgIAAxkBAAEBMppfNconW5ME4nCTVZXChCCOAeYVrwACFAIAAjZ2IA6_Kxh24r9gPRoE'
+    ]);
+});
+
+$botman->hears(['dice', 'dice@{username}', '/dice', '/dice@{username}'], function($bot){
+    $bot->sendRequest('sendDice', [
+        'emoji' => '🎲'
+    ]);
+});
+

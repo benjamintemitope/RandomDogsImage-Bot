@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\SubscriberGroupController;
 use App\Services\DogService;
 use BotMan\BotMan\Messages\Attachments\Image;
+use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 use BotMan\BotMan\Messages\Outgoing\Question;
 use BotMan\Drivers\Telegram\TelegramDriver;
-use BotMan\BotMan\Messages\Incoming\Answer;
 use Illuminate\Http\Request;
 
 class BreedController extends Controller
@@ -31,6 +33,11 @@ class BreedController extends Controller
     */
     public function byBreed($bot, $name)
     {
+         // We create or update record about the subscribers
+        $this->storeOrUpdate($bot);
+        $userId = $bot->getUser()->getInfo()['user']['id'];
+    
+
         // Because we used a wildcard in the command definition, Botman will pass it to our method.
         // Again, we let the service class handle the API call and we reply with the result we get back.
         $breedURL = $this->endpoint->byBreed($name);
@@ -41,9 +48,48 @@ class BreedController extends Controller
             $nameBreed = explode('/', $breedURL)[4];
             $nameBreed = str_replace('-', ' ', $nameBreed);
             $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
+
+            //sending photo notification
+            $bot->sendRequest('sendChatAction', [
+                'user_id' => $userId,
+                'action' => 'upload_photo'
+            ]);
+
             $bot->reply($message, ['parse_mode' => 'HTML']);
         }else {
             $bot->reply($this->endpoint->byBreed($name), ['parse_mode' => 'HTML']);
+        }
+    }
+
+    /**
+     * Create or Update record about the subscribers
+     * 
+     * @return void
+     */
+    public function storeOrUpdate($bot)
+    {
+        //Get Chat Information
+        $chat_type = $bot->getMessage()
+                     ->getPayload()['chat']['type'];
+
+        //If the command is sent privately
+        if ($chat_type === 'private') {
+            //Get Subscriber Information
+            $user = $bot->getUser();
+            $info_user = $user->getInfo()['user'];
+
+            //Interact with Controller
+            (new SubscriberController)->storeOrUpdate($info_user);
+        }else {
+            //Get Group Info
+            $info_group = $bot->getMessage()->getPayload()['chat'];
+            //Interact with Controller
+            (new SubscriberGroupController)->storeOrUpdate($info_group);
+
+            //Get Subscriber Info
+            $info_user = $bot->getMessage()->getPayload()['from'];
+            //Interact with Controller
+            (new SubscriberController)->storeOrUpdate($info_user);
         }
     }
 }

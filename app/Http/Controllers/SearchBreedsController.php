@@ -104,13 +104,13 @@ class SearchBreedsController extends Controller
                 }
             });
 
-            
+            // We create or update record about the subscribers
+            //BUG: If instead in the else statement
+            $this->storeOrUpdate($bot);
         }else {
             $bot->say('No result found for <b>' . ucwords($text) . '</b> SubBreed', ['parse_mode' => 'HTML']);
         }
 
-        // We create or update record about the subscribers
-        $this->storeOrUpdate($bot);
     }
 
     /**

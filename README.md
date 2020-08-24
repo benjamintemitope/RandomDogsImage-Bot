@@ -14,7 +14,7 @@ $ cp .env.example .env
 ```bash
 $ composer install
 ```
-## Migrate database migrations
+## Migrate
 ```bash
 $ php artisan migrate
 ```

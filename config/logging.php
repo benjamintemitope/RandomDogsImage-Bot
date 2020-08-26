@@ -78,7 +78,7 @@ return [
         ],
 
         'chat' => [
-          'driver' => 'errorlog',
+          'driver' => 'single',
           'path' => storage_path('logs/chatlogs.log'),
        ],
     ],

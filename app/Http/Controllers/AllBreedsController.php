@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\SubscriberController;
-use App\Http\Controllers\SubscriberGroupController;
 use App\Services\DogService;
 use BotMan\BotMan\Messages\Attachments\Image;
 use BotMan\BotMan\Messages\Incoming\Answer;
@@ -80,27 +79,7 @@ class AllBreedsController extends Controller
     public function storeOrUpdate($bot)
     {
         //Get Chat Information
-        $chat_type = $bot->getMessage()
-                     ->getPayload()['chat']['type'];
-
-        //If the command is sent privately
-        if ($chat_type === 'private') {
-            //Get Subscriber Information
-            $user = $bot->getUser();
-            $info_user = $user->getInfo()['user'];
-
-            //Interact with Controller
-            (new SubscriberController)->storeOrUpdate($info_user);
-        }else {
-            //Get Group Info
-            $info_group = $bot->getMessage()->getPayload()['chat'];
-            //Interact with Controller
-            (new SubscriberGroupController)->storeOrUpdate($info_group);
-
-            //Get Subscriber Info
-            $info_user = $bot->getMessage()->getPayload()['from'];
-            //Interact with Controller
-            (new SubscriberController)->storeOrUpdate($info_user);
-        }
+        $messagePayload = $bot->getMessage()->getPayload();
+        (new SubscriberController)->storeOrUpdate($messagePayload);
     }
 }

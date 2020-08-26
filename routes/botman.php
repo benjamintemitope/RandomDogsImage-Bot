@@ -62,3 +62,5 @@ $botman->hears(['dice', 'dice@{username}', '/dice', '/dice@{username}'], functio
     ]);
 });
 
+$botman->hears(['/feedback', '/feedback@{username}'], 'App\Http\Controllers\ConversationController@feedback');
+

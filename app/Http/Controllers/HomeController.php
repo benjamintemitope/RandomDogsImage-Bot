@@ -26,8 +26,6 @@ class HomeController extends Controller
     public function index()
     {
         $subscribers = Subscriber::all();
-        $subscriberGroups = SubscriberGroup::all();
-
-        return view('dashboard', compact('subscribers', 'subscriberGroups'));
+        return view('dashboard', compact('subscribers'));
     }
 }

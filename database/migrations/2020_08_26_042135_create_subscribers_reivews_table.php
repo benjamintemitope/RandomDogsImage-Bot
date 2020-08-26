@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubscribersTable extends Migration
+class CreateSubscribersReivewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateSubscribersTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscribers', function (Blueprint $table) {
-            $table->string('id')->index();
-            $table->string('name')->nullable();
-            $table->string('username')->nullable();
-            $table->string('chat_type')->nullable();
+        Schema::create('subscribers_reivews', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('subscriber_id')->references('id')->on('subscribers');
+            $table->string('group_id')->nullable();
+            $table->string('review');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateSubscribersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscribers');
+        Schema::dropIfExists('subscribers_reivews');
     }
 }

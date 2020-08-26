@@ -24,27 +24,35 @@ class SubscriberController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  $info
+     * @param  $data
      * @return void
      */
-    public static function store($info)
+    public static function store($data)
     {
         $subscriber = new Subscriber();
-        $subscriber->subscriber_id = $info['id'];
+        $subscriber->id = $data['id'];
 
-        if (array_key_exists('first_name', $info)) {
-            $subscriber->name = $info['first_name'];
+        if (array_key_exists('first_name', $data)) {
+            $subscriber->name = $data['first_name'];
         }
 
-        if (array_key_exists('last_name', $info)) {
-            $subscriber->name .= ' ' . $info['last_name'];
+        if (array_key_exists('last_name', $data)) {
+            $subscriber->name .= ' ' . $data['last_name'];
         }
 
-        if (array_key_exists('username', $info)) {
-            $subscriber->username = $info['username'];    
+        if (array_key_exists('username', $data)) {
+            $subscriber->username = $data['username'];    
         }
+
+        if (array_key_exists('title', $data)) {
+            $subscriber->name = $data['title'];
+        }
+
+        if (array_key_exists('type', $data)) {
+            $subscriber->chat_type = $data['type'];
+        }
+
         
-        $subscriber->last_active = NOW();
 
         $subscriber->save();
     }
@@ -63,29 +71,36 @@ class SubscriberController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  $info
+     * @param  $subscriber
      * @return void
      */
-    public function update($info)
+    public function update($data)
     {
-        $subscriber =  Subscriber::where('subscriber_id', '=', $info['id'])->firstOrFail();
+        $subscriber =  Subscriber::where('id', '=', $data['id'])->firstOrFail();
 
-        $subscriber->subscriber_id = $info['id'];
+        $subscriber->id = $data['id'];
 
-        if (array_key_exists('first_name', $info)) {
-            $subscriber->name = $info['first_name'];
+        if (array_key_exists('first_name', $data)) {
+            $subscriber->name = $data['first_name'];
         }
 
-        if (array_key_exists('last_name', $info)) {
-            $subscriber->name .= ' ' . $info['last_name'];
+        if (array_key_exists('last_name', $data)) {
+            $subscriber->name .= ' ' . $data['last_name'];
         }
 
-        if (array_key_exists('username', $info)) {
-            $subscriber->username = $info['username'];    
+        if (array_key_exists('username', $data)) {
+            $subscriber->username = $data['username'];    
         }
-        
-        $subscriber->last_active = NOW();
 
+        if (array_key_exists('title', $data)) {
+            $subscriber->name = $data['title'];
+        }
+
+        if (array_key_exists('type', $data)) {
+            $subscriber->chat_type = $data['type'];
+        }
+
+        $subscriber->updated_at = NOW();
         $subscriber->update();
     }
 
@@ -94,16 +109,33 @@ class SubscriberController extends Controller
      * Update records if exist
      * Create records if new
      * 
-     * @param $info
+     * @param $chat
      * @return void
      */
-    public function storeOrUpdate($info)
+    public function storeOrUpdate($messagePayload)
     {
-        $check = Subscriber::where('subscriber_id', '=', $info['id'])->exists();
-        if ($check === true) {
-            $this->update($info);
+        //Convert Protected Object to Array
+        $messagePayload = (array)$messagePayload;
+        $prefix = chr(0).'*'.chr(0);
+
+        $userInfo = $messagePayload[$prefix.'items']['from'];
+        //To distinguish subscriber
+        //user type is set to private
+        $userInfo['type'] = 'private';
+        $chatInfo = $messagePayload[$prefix.'items']['chat'];
+
+        //Check if record exists in database
+        //if true, update the record
+        //else, create a record
+        if ($chatInfo === 'private') {
+            $check_chat = Subscriber::where('id', '=', $chatInfo['id'])->exists();
+            ($check_chat) ? $this->update($chatInfo) : $this->store($chatInfo);
         }else {
-            $this->store($info);
+            $check_user = Subscriber::where('id', '=', $userInfo['id'])->exists();
+            ($check_user) ? $this->update($userInfo) : $this->store($userInfo);
+
+            $check_group = Subscriber::where('id', '=', $chatInfo['id'])->exists();
+            ($check_group) ? $this->update($chatInfo) : $this->store($chatInfo);
         }
     }
 }

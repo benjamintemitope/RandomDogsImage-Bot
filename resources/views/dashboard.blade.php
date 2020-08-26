@@ -170,10 +170,7 @@
                         </div>
                       </div>
                     </div>
-                </div>
-
-                <div class="card-footer">
-                  <small><a href="{{ url('storage/logs/chatslog.log') }}">Download Log File </a></small>
+                    <h3><a href="{{ route('logs') }}">View Logs</a></h3>
                 </div>
             </div>
         </div>

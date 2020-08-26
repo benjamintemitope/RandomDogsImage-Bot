@@ -23,7 +23,9 @@ Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('auth');
+
 //Send Conversation
-Route::post('send/{id}', 'SendConversation@sendConversation');
+Route::post('send/{id}', 'SendConversation@sendConversation')->middleware('auth');
 
 /*Route::get('/botman/tinker', 'BotManController@tinker');*/

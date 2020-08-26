@@ -171,6 +171,10 @@
                       </div>
                     </div>
                 </div>
+
+                <div class="card-footer">
+                  <small><a href="{{ url('storage/logs/chatslog.log') }}">Download Log File </a></small>
+                </div>
             </div>
         </div>
     </div>

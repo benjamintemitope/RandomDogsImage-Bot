@@ -43,12 +43,6 @@ $botman->hears(['/help', '/help@{username}', '❓ Help Center'], 'App\Http\Contr
 //Command Error
 $botman->fallback('App\Http\Controllers\FallbackController@index');
 
-//Stickers Commads
-$botman->hears(['dog', 'dog@{username}', '/dog', '/dog@{username}'], function($bot){
-    $bot->sendRequest('sendSticker', [
-        'sticker' => 'CAACAgIAAxkBAAEBMphfNcnSmApYpPM-LkCwmAeLHwABufgAAg8CAAI2diAOgId0VJ7dIYIaBA'
-    ]);
-});
 
 $botman->hears(['stop', 'stop@{username}', '/stop', '/stop@{username}'], function($bot){
     $bot->sendRequest('sendSticker', [
@@ -56,11 +50,6 @@ $botman->hears(['stop', 'stop@{username}', '/stop', '/stop@{username}'], functio
     ]);
 });
 
-$botman->hears(['dice', 'dice@{username}', '/dice', '/dice@{username}'], function($bot){
-    $bot->sendRequest('sendDice', [
-        'emoji' => '🎲'
-    ]);
-});
 
 $botman->hears(['/feedback', '/feedback@{username}'], 'App\Http\Controllers\ConversationController@feedback');
 

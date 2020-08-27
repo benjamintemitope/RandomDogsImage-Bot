@@ -48,12 +48,12 @@
                                         @foreach ($subscribers as $subscriber)
                                             <tr>
                                                 <td>{{ $num }}</td>
-                                                <td>{{ $subscriber->subscriber_id }}</td>
+                                                <td>{{ $subscriber->id }}</td>
                                                 <td>{{ $subscriber->name }}</td>
                                                 <td>{{ $subscriber->username }}</td>
                                                 <td>
                                                     {{
-                                                        \Carbon\Carbon::parse($subscriber->last_active)->diffForHumans() 
+                                                        \Carbon\Carbon::parse($subscriber->updated_at)->diffForHumans() 
                                                      }}
                                                  </td>
                                                 <td>
@@ -64,7 +64,7 @@
                                                  <td>
                                                      <button class="btn btn-primary btn-sm"
                                                      data-toggle="modal" data-target="#sendModal" data-send-id="{{ $subscriber
-                                                        ->subscriber_id }}"
+                                                        ->id }}"
                                                      data-title="{{ $subscriber->username }}"
                                                      >
                                                          Send
@@ -101,12 +101,12 @@
                                         @foreach ($subscriberGroups as $subscriberGroup)
                                             <tr>
                                                 <td>{{ $num }}</td>
-                                                <td>{{ $subscriberGroup->group_id }}</td>
-                                                <td>{{ $subscriberGroup->title }}</td>
-                                                <td>{{ $subscriberGroup->type }}</td>
+                                                <td>{{ $subscriberGroup->id }}</td>
+                                                <td>{{ $subscriberGroup->name }}</td>
+                                                <td>{{ $subscriberGroup->chat_type }}</td>
                                                 <td>
                                                     {{
-                                                        \Carbon\Carbon::parse($subscriberGroup->last_active)->diffForHumans() 
+                                                        \Carbon\Carbon::parse($subscriberGroup->updated_at)->diffForHumans() 
                                                      }}
                                                  </td>
                                                 <td>

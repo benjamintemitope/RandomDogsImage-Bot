@@ -25,7 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $subscribers = Subscriber::all();
-        return view('dashboard', compact('subscribers'));
+        $subscribers = Subscriber::where('chat_type', 'private')->get();
+        $subscriberGroups = Subscriber::get()->whereNotIn('chat_type', 'private');
+        return view('dashboard', compact('subscribers', 'subscriberGroups'));
     }
 }

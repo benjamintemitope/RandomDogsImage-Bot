@@ -17,8 +17,9 @@ class SubscriberController extends Controller
      */
     public function index()
     {
-        $subscribers = Subscriber::all();
-        return $subscribers;
+        $subscribers = Subscriber::where('chat_type', 'private')->get();
+        $subscriberGroups = Subscriber::where('chat_type', 'private')->get();
+        return view('dashboard', compact('subscribers', 'subscriberGroups'));
     }
 
     /**

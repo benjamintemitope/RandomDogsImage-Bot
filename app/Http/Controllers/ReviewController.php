@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\SubscribersReivew;
+use App\Review;
 use Illuminate\Http\Request;
 
-class SubscribersReivewController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,18 +33,28 @@ class SubscribersReivewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($data)
     {
-        //
+        //Convert Protected Object to Array
+        $data = (array)$data;
+        $prefix = chr(0).'*'.chr(0);
+
+        $subscriber = $data[$prefix.'items']['from'];
+
+        $review = new Review();
+        $review->subscriber_id = $subscriber['id'];
+        $review->body = $data[$prefix.'items']['text'];
+
+        $review->save();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\SubscribersReivew  $subscribersReivew
+     * @param  \App\ReviewController  $ReviewController
      * @return \Illuminate\Http\Response
      */
-    public function show(SubscribersReivew $subscribersReivew)
+    public function show(ReviewController $ReviewController)
     {
         //
     }
@@ -52,10 +62,10 @@ class SubscribersReivewController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\SubscribersReivew  $subscribersReivew
+     * @param  \App\ReviewController  $ReviewController
      * @return \Illuminate\Http\Response
      */
-    public function edit(SubscribersReivew $subscribersReivew)
+    public function edit(ReviewController $ReviewController)
     {
         //
     }
@@ -64,10 +74,10 @@ class SubscribersReivewController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SubscribersReivew  $subscribersReivew
+     * @param  \App\ReviewController  $ReviewController
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubscribersReivew $subscribersReivew)
+    public function update(Request $request, ReviewController $ReviewController)
     {
         //
     }
@@ -75,10 +85,10 @@ class SubscribersReivewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\SubscribersReivew  $subscribersReivew
+     * @param  \App\ReviewController  $ReviewController
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SubscribersReivew $subscribersReivew)
+    public function destroy(ReviewController $ReviewController)
     {
         //
     }

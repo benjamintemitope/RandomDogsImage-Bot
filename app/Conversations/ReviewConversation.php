@@ -3,7 +3,8 @@
 namespace App\Conversations;
 
 use App\Http\Controllers\SubscriberController;
-use App\Http\Controllers\SubscriberGroupController;
+use App\Http\Controllers\ReviewController;
+use App\SubscribersReivew;
 use BotMan\BotMan\Messages\Attachments\Image;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
@@ -12,7 +13,7 @@ use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 use BotMan\BotMan\Messages\Outgoing\Question;
 
 
-class FeedbackConversation extends Conversation
+class ReviewConversation extends Conversation
 {
     /**
        * Question to receive user's feedback
@@ -24,13 +25,14 @@ class FeedbackConversation extends Conversation
     {
         $question = Question::create('Write Us A Review');
         $this->ask($question, function (Answer $answer) {
-            // We fetch the user entry from the endpoint
-            $review = $answer->getText();
-            \Log::channel('chat')->info(print_r($answer->getMessage()->getPayload(),true));
-            // We create or update record about the subscribers
-            $this->storeOrUpdate($answer);
+            
+            //Get Chat Information
+            $payload = $answer->getMessage()->getPayload();
+            (new ReviewController)->store($payload);
+            //create or update record about the subscribers
+            (new SubscriberController)->storeOrUpdate($payload);
 
-            $this->say('Nice to meet you ');
+            $this->say('Nice to meet you.');
         });
     }
 
@@ -44,15 +46,5 @@ class FeedbackConversation extends Conversation
         $this->defaultQuestion();
     }
     
-     /**
-     * Create or Update record about the subscribers
-     * 
-     * @return void
-     */
-    public function storeOrUpdate($bot)
-    {
-        //Get Chat Information
-        $messagePayload = $bot->getMessage()->getPayload();
-        (new SubscriberController)->storeOrUpdate($messagePayload);
-    }
+    
 }

@@ -58,6 +58,8 @@ class ConversationController extends Controller
 
     public function feedback($bot)
     {
+        // We create or update record about the subscribers
+        $this->storeOrUpdate($bot);
         $bot->startConversation(new ReviewConversation());
     }
 

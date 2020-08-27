@@ -4,7 +4,6 @@ namespace App\Conversations;
 
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\ReviewController;
-use App\SubscribersReivew;
 use BotMan\BotMan\Messages\Attachments\Image;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;

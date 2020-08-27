@@ -28,6 +28,7 @@ class HelpDeskController extends Controller
 \n/s {breed}:{subBreed} - 🖼 Get SubBreed Image , 
 \n/ss {subBreed} - 🔎 Search SubBreed, 
 \n/dev - 👨🏻‍💻 Developer , 
+\n/feedback - 📄 Feedback,
 \n/help - ❓ Help
         ", ['parse_mode' => 'HTML']);
     }

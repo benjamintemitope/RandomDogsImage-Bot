@@ -40,6 +40,9 @@ $botman->hears(['/dev', '/dev@{username}'], function ($bot) {
 //Help Desk
 $botman->hears(['/help', '/help@{username}', '❓ Help Center'], 'App\Http\Controllers\HelpDeskController@index');
 
+//Feeback Command
+$botman->hears(['/feedback', '/feedback@{username}', '📄 Review'], 'App\Http\Controllers\ConversationController@feedback');
+
 //Command Error
 $botman->fallback('App\Http\Controllers\FallbackController@index');
 
@@ -50,6 +53,4 @@ $botman->hears(['stop', 'stop@{username}', '/stop', '/stop@{username}'], functio
     ]);
 });
 
-
-$botman->hears(['/feedback', '/feedback@{username}'], 'App\Http\Controllers\ConversationController@feedback');
 

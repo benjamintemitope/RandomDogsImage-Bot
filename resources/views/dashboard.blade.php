@@ -170,7 +170,7 @@
                         </div>
                       </div>
                     </div>
-                    <h3><a href="{{ route('logs') }}">View Logs</a></h3>
+                    <p><a href="{{ route('logs') }}">View Logs</a></p>
                 </div>
             </div>
         </div>

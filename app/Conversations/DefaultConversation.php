@@ -48,15 +48,16 @@ class DefaultConversation extends Conversation
      */
     public function keyboard()
     {
-            return Keyboard::create()
-                ->type(Keyboard::TYPE_KEYBOARD)
-                ->resizeKeyboard()
-                ->addRow(KeyboardButton::create('🎲 Random Dog Image')->callbackData('random'))
-                ->addRow(
-                    KeyboardButton::create('🖼 A Image by Breed')->callbackData('breed'),
-                    KeyboardButton::create('🖼 A Image by Sub-Breed')->callbackData('sub-breed'))
-                ->addRow(
-                    KeyboardButton::create('❓ Help Center')->callbackData('help'))
-                ->toArray();
+        return Keyboard::create()
+            ->type(Keyboard::TYPE_KEYBOARD)
+            ->resizeKeyboard()
+            ->addRow(KeyboardButton::create('🎲 Random Dog Image')->callbackData('random'))
+            ->addRow(
+                KeyboardButton::create('🖼 A Image by Breed')->callbackData('breed'),
+                KeyboardButton::create('🖼 A Image by Sub-Breed')->callbackData('sub-breed'))
+            ->addRow(
+                KeyboardButton::create('❓ Help Center')->callbackData('help'),
+                KeyboardButton::create('📄 Review')->callbackData('feedback'))
+            ->toArray();
     }
 }

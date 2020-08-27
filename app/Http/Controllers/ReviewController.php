@@ -43,9 +43,11 @@ class ReviewController extends Controller
 
         $review = new Review();
         $review->subscriber_id = $subscriber['id'];
-        $review->body = $data[$prefix.'items']['text'];
 
-        $review->save();
+        if (array_key_exists('text', $data[$prefix.'items'])) {
+            $review->body = $data[$prefix.'items']['text'];
+            $review->save();
+        }
     }
 
     /**

@@ -31,7 +31,14 @@ class ReviewConversation extends Conversation
             //create or update record about the subscribers
             (new SubscriberController)->storeOrUpdate($payload);
 
-            $this->say('Nice to meet you.');
+            //Get Message Id
+            //Convert Protected Object to Array
+            $payload = (array)$payload;
+            $prefix = chr(0).'*'.chr(0);
+
+            $message_id = $payload[$prefix.'items']['message_id'];
+            
+            $this->say('Nice to meet you.', ['reply_to_message_id' => $message_id]);
         });
     }
 

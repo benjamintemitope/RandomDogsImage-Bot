@@ -14,7 +14,8 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        $reviews = Review::latest('created_at')->paginate(10);
+        return view('reviews', compact('reviews'));
     }
 
     /**

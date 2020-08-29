@@ -25,6 +25,8 @@ Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('auth')->name('logs');
 
+Route::get('reviews', 'ReviewController@index')->middleware('auth')->name('reviews');
+
 //Send Conversation
 Route::post('send/{id}', 'SendConversation@sendConversation')->middleware('auth');
 

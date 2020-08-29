@@ -21,7 +21,18 @@ class FallbackController extends Controller
 
         \Log::channel('chat')->info(print_r($bot->getMessage()->getPayload(),true));
 
-        $bot->reply('Sorry, I did not understand these commands. Try: /help');
+        if (is_object($bot->getMessage()->getPayload())) {
+             //Get Message Id
+            $payload = (array)$bot->getMessage()->getPayload();
+            $prefix = chr(0).'*'.chr(0);
+            $message_id = $payload[$prefix.'items']['message_id'];
+            $bot->reply('Sorry, I did not understand these commands. Try: /help',['reply_to_message_id' => $message_id]);
+        }else {
+            $bot->reply('Sorry, I did not understand these commands. Try: /help');
+        }
+        
+
+        
     }
 
     /**

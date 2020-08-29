@@ -42,8 +42,6 @@ class AllBreedsController extends Controller
 
         $userId = $bot->getUser()->getInfo()['user']['id'];
 
-       /* \Log::channel('chat')->info(print_r($info_user,true));*/
-
         // $this->endpoint->random() is basically the photo URL returned from the service.
         // $bot->reply is what we will use to send a message back to the user.
         $breedURL = $this->endpoint->random();

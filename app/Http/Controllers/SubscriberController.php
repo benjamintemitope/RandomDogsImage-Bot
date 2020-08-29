@@ -115,28 +115,31 @@ class SubscriberController extends Controller
      */
     public function storeOrUpdate($messagePayload)
     {
-        //Convert Protected Object to Array
-        $messagePayload = (array)$messagePayload;
-        $prefix = chr(0).'*'.chr(0);
+        if (is_object($messagePayload)) {
+            //Convert Protected Object to Array
+            $messagePayload = (array)$messagePayload;
+            $prefix = chr(0).'*'.chr(0);
 
-        $userInfo = $messagePayload[$prefix.'items']['from'];
-        //To distinguish subscriber
-        //user type is set to private
-        $userInfo['type'] = 'private';
-        $chatInfo = $messagePayload[$prefix.'items']['chat'];
+            $userInfo = $messagePayload[$prefix.'items']['from'];
+            //To distinguish subscriber
+            //user type is set to private
+            $userInfo['type'] = 'private';
+            $chatInfo = $messagePayload[$prefix.'items']['chat'];
 
-        //Check if record exists in database
-        //if true, update the record
-        //else, create a record
-        if ($chatInfo === 'private') {
-            $check_chat = Subscriber::where('id', '=', $chatInfo['id'])->exists();
-            ($check_chat) ? $this->update($chatInfo) : $this->store($chatInfo);
-        }else {
-            $check_user = Subscriber::where('id', '=', $userInfo['id'])->exists();
-            ($check_user) ? $this->update($userInfo) : $this->store($userInfo);
+            //Check if record exists in database
+            //if true, update the record
+            //else, create a record
+            if ($chatInfo === 'private') {
+                $check_chat = Subscriber::where('id', '=', $chatInfo['id'])->exists();
+                ($check_chat) ? $this->update($chatInfo) : $this->store($chatInfo);
+            }else {
+                $check_user = Subscriber::where('id', '=', $userInfo['id'])->exists();
+                ($check_user) ? $this->update($userInfo) : $this->store($userInfo);
 
-            $check_group = Subscriber::where('id', '=', $chatInfo['id'])->exists();
-            ($check_group) ? $this->update($chatInfo) : $this->store($chatInfo);
+                $check_group = Subscriber::where('id', '=', $chatInfo['id'])->exists();
+                ($check_group) ? $this->update($chatInfo) : $this->store($chatInfo);
+            }
         }
+        
     }
 }

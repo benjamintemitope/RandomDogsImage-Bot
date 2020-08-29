@@ -16,9 +16,14 @@ class HelpDeskController extends Controller
     public function index($bot)
     {
         //Get Chat Information
-        $messagePayload = $bot->getMessage()->getPayload();
-        (new SubscriberController)->storeOrUpdate($messagePayload);
+        $payload = $bot->getMessage()->getPayload();
+        (new SubscriberController)->storeOrUpdate($payload);
         
+        //Get Message Id
+        $payload = (array)$bot->getMessage()->getPayload();
+        $prefix = chr(0).'*'.chr(0);
+        $message_id = $payload[$prefix.'items']['message_id'];
+
         $bot->reply("
             <b>❓ Help Desk</b> \n <i>Commands Available </i>
 \n/start - ▶ Start ,
@@ -30,6 +35,6 @@ class HelpDeskController extends Controller
 \n/dev - 👨🏻‍💻 Developer , 
 \n/feedback - 📄 Feedback,
 \n/help - ❓ Help
-        ", ['parse_mode' => 'HTML']);
+        ", ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
     }
 }

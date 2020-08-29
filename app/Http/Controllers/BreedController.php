@@ -35,7 +35,11 @@ class BreedController extends Controller
          // We create or update record about the subscribers
         $this->storeOrUpdate($bot);
         $userId = $bot->getUser()->getInfo()['user']['id'];
-    
+        
+        //Get Message Id
+        $payload = (array)$bot->getMessage()->getPayload();
+        $prefix = chr(0).'*'.chr(0);
+        $message_id = $payload[$prefix.'items']['message_id'];
 
         // Because we used a wildcard in the command definition, Botman will pass it to our method.
         // Again, we let the service class handle the API call and we reply with the result we get back.
@@ -48,15 +52,15 @@ class BreedController extends Controller
             $nameBreed = str_replace('-', ' ', $nameBreed);
             $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\nSource: https://dog.ceo")->withAttachment($attachment);
 
-            //sending photo notification
+            //sending photo status
             $bot->sendRequest('sendChatAction', [
                 'user_id' => $userId,
                 'action' => 'upload_photo'
             ]);
 
-            $bot->reply($message, ['parse_mode' => 'HTML']);
+            $bot->reply($message, ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
         }else {
-            $bot->reply($this->endpoint->byBreed($name), ['parse_mode' => 'HTML']);
+            $bot->reply($this->endpoint->byBreed($name), ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
         }
     }
 

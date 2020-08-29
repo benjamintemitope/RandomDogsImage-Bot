@@ -31,8 +31,12 @@ class SubBreedController extends Controller
     {
         // We create or update record about the subscribers
         $this->storeOrUpdate($bot);
-        
         $userId = $bot->getUser()->getInfo()['user']['id'];
+
+        //Get Message Id
+        $payload = (array)$bot->getMessage()->getPayload();
+        $prefix = chr(0).'*'.chr(0);
+        $message_id = $payload[$prefix.'items']['message_id'];
 
         $breed = strtolower($breed);
         $subBreed = strtolower($subBreed);
@@ -51,9 +55,9 @@ class SubBreedController extends Controller
                 'action' => 'upload_photo'
             ]);
 
-            $bot->reply($message, ['parse_mode' => 'HTML']);
+            $bot->reply($message, ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
         }else {
-            $bot->reply($breedURL, ['parse_mode' => 'HTML']);
+            $bot->reply($breedURL, ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
         }
     }
 

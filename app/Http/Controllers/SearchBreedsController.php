@@ -14,31 +14,37 @@ use Illuminate\Http\Request;
 
 class SearchBreedsController extends Controller
 {
-    public $searchEntry = [];
+    public $searchResults = [];
 
     public function byBreed($bot, $text)
     {
         $text = strval($text);
 
-        //Make Search Entries from all Breeds Available
+        //Input Search Entries from all Breeds Available
         $allBreeds = (new \App\Services\DogService)->allBreeds();
         foreach ($allBreeds as $breed => $subBreed) {
             if (preg_match("#{$text}#i", $breed)) {
-                $this->searchEntry[] .= $breed;   
+                $this->searchResults[] .= $breed;   
             }   
         }
 
         //Search Results
-        if (!empty($this->searchEntry)) {
+        if (!empty($this->searchResults)) {
             $question = Question::create('Search Results for ' . ucwords($text));
-            foreach ($this->searchEntry as $entry) {
+            foreach ($this->searchResults as $entry) {
                 $question->addButtons([
                     Button::create(ucwords($entry))->value($entry)
                 ]);
             }
 
+
             //Returning Search Results
             return $bot->ask($question,function (Answer $answer) {
+
+                //Get Message Id
+                $payload = (array)$answer->getMessage()->getPayload();
+                $message_id = $payload['message_id'];
+
                 if ($answer->isInteractiveMessageReply()) {
                     $selectedBreed = $answer->getValue();
                     $breedURL = (new \App\Services\DogService)->byBreed($selectedBreed);
@@ -48,7 +54,7 @@ class SearchBreedsController extends Controller
                         $breedName = str_replace('-', ' ', $breedName);
                         $message = OutgoingMessage::create("Breed: <b>" . ucwords($breedName) . "</b>\n\nSource: https://dog.ceo")->withAttachment($attachment);
 
-                        $this->say($message, ['parse_mode' => 'HTML']);
+                        $this->say($message, ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
                     }
                 }
             });
@@ -67,17 +73,18 @@ class SearchBreedsController extends Controller
         //$this->storeOrUpdate($bot);
         
         $text = strval($text);
+
         //Make Search Entries from all Breeds Available
         $allBreeds = (new \App\Services\DogService)->allBreeds();
         foreach ($allBreeds as $breed => $subBreed) {
             if (preg_grep("#{$text}#i", $subBreed)) {
-                $this->searchEntry[$breed] = preg_grep("#{$text}#i", $subBreed);   
+                $this->searchResults[$breed] = preg_grep("#{$text}#i", $subBreed);   
             }   
         }
         //Search Results
-        if (!empty($this->searchEntry)) {
+        if (!empty($this->searchResults)) {
             $question = Question::create('Search Results for ' . ucwords($text));
-            foreach ($this->searchEntry as $entry => $entrySub) {
+            foreach ($this->searchResults as $entry => $entrySub) {
                 $entrySub = implode("|",$entrySub);
                 $question->addButtons([
                     Button::create(ucfirst($entry) . " " . ucfirst($entrySub))->value("$entry:$entrySub")
@@ -86,6 +93,11 @@ class SearchBreedsController extends Controller
 
              //Returning Search Results
             return $bot->ask($question,function (Answer $answer) {
+
+                //Get Message Id
+                $payload = (array)$answer->getMessage()->getPayload();
+                $message_id = $payload['message_id'];
+
                 if ($answer->isInteractiveMessageReply()) {
                     $selectedBreed = explode(':', $answer->getValue());
                     $breedURL = (new \App\Services\DogService)->bySubBreed($selectedBreed[0], $selectedBreed[1]);
@@ -98,7 +110,7 @@ class SearchBreedsController extends Controller
                         $breedName = explode('/', $breedURL)[4];
                         $breedName = str_replace('-', ' ', $breedName);
                         $message = OutgoingMessage::create("Breed: <b>" . ucwords($breedName) . "</b>\n\nSource: https://dog.ceo")->withAttachment($attachment);
-                        $this->say($message, ['parse_mode' => 'HTML']);
+                        $this->say($message, ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
                     }
                 }
             });

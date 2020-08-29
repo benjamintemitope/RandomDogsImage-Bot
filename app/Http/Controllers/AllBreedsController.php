@@ -35,12 +35,19 @@ class AllBreedsController extends Controller
         // We create or update record about the subscribers
         $this->storeOrUpdate($bot);
 
+        $userId = $bot->getUser()->getInfo()['user']['id'];
+
+        //Get Message Id
+        $payload = (array)$bot->getMessage()->getPayload();
+        $prefix = chr(0).'*'.chr(0);
+        $message_id = $payload[$prefix.'items']['message_id'];
+
         //Send Dice Sticker
         $bot->sendRequest('sendDice', [
-            'emoji' => '🎲'
+            'emoji' => '🎲',
+            'disable_notification' => false,
+            'reply_to_message_id' => $message_id
         ]);
-
-        $userId = $bot->getUser()->getInfo()['user']['id'];
 
         // $this->endpoint->random() is basically the photo URL returned from the service.
         // $bot->reply is what we will use to send a message back to the user.
@@ -63,7 +70,7 @@ class AllBreedsController extends Controller
                 'action' => 'upload_photo'
             ]);
 
-            $bot->reply($message, ['parse_mode' => 'HTML']);
+            $bot->reply($message, ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
         }else {
             $bot->reply($this->endpoint->random(), ['parse_mode' => 'HTML']);
         }

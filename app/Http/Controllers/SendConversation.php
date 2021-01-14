@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Conversations\BreedConversation;
+use App\Conversations\ReviewConversation;
 use App\Conversations\SubBreedConversation;
 use App\Services\DogService;
 use BotMan\BotMan\Messages\Attachments\Image;
@@ -32,14 +33,60 @@ class SendConversation extends Controller
             case 'sub-breed':
                 $botman->startConversation(new SubBreedConversation(), $id, TelegramDriver::class, ['parse_mode' => 'HTML']);
             break;
+
+            case 'review':
+                $botman->startConversation(new ReviewConversation(), $id, TelegramDriver::class, ['parse_mode' => 'HTML']);
+                break;
         }
 
-        if (!empty($message)) {
+        if ($request->imageURL) {
+            // Create attachment
+            $attachment = new Image($request->imageURL, [
+                'custom_payload' => true,
+            ]);
+
+            // Build message object
+            $message = OutgoingMessage::create($request->message)
+                        ->withAttachment($attachment);
+
+            // Reply message object
             $botman->say($message, $id, TelegramDriver::class, ['parse_mode' => 'HTML']);
+        }elseif (!empty($request->message)) {
+            $botman->say($request->message, $id, TelegramDriver::class, ['parse_mode' => 'HTML']);
         }
+
+        
+
 
         return redirect()->route('dashboard')->with('status', 'Message sent successfully.');
         
+    }
+
+    public function customSend()
+    {
+        return view('custom-send');
+    }
+
+    public function send(Request $request)
+    {
+        $botman = app('botman');
+        if ($request->imageURL) {
+            // Create attachment
+            $attachment = new Image($request->imageURL, [
+                'custom_payload' => true,
+            ]);
+
+            // Build message object
+            $message = OutgoingMessage::create($request->message)
+                    ->withAttachment($attachment);
+
+            // Reply message object
+            $botman->say($message, (int) $request->userId, TelegramDriver::class, ['parse_mode' => 'HTML']);
+        }elseif (!empty($message)) {
+            $botman->say($message, (int) $request->userId, TelegramDriver::class, ['parse_mode' => 'HTML']);
+        }
+
+        return redirect()->route('dashboard')->with('status', 'Message sent successfully.');
     }
 
     public function random()

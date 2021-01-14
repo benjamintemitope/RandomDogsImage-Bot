@@ -53,8 +53,6 @@ class SubscriberController extends Controller
             $subscriber->chat_type = $data['type'];
         }
 
-        
-
         $subscriber->save();
     }
 
@@ -108,7 +106,7 @@ class SubscriberController extends Controller
     /**
      * Check if Subscriber record exist in database
      * Update records if exist
-     * Create records if new
+     * Create record if new
      * 
      * @param $chat
      * @return void
@@ -121,9 +119,11 @@ class SubscriberController extends Controller
             $prefix = chr(0).'*'.chr(0);
 
             $userInfo = $messagePayload[$prefix.'items']['from'];
+
             //To distinguish subscriber
             //user type is set to private
             $userInfo['type'] = 'private';
+            
             $chatInfo = $messagePayload[$prefix.'items']['chat'];
 
             //Check if record exists in database

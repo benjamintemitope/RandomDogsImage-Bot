@@ -12,6 +12,7 @@ use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 use BotMan\BotMan\Messages\Outgoing\Question;
 use BotMan\Drivers\Telegram\TelegramDriver;
 use Illuminate\Http\Request;
+use ReflectionClass;
 
 class AllBreedsController extends Controller
 {
@@ -38,9 +39,8 @@ class AllBreedsController extends Controller
         $userId = $bot->getUser()->getInfo()['user']['id'];
 
         //Get Message Id
-        $payload = (array)$bot->getMessage()->getPayload();
-        $prefix = chr(0).'*'.chr(0);
-        $message_id = $payload[$prefix.'items']['message_id'];
+        $payload = $bot->getMessage()->getPayload();
+        $message_id = accessProtected($payload, 'items')['message_id'];
 
         //Send Dice Sticker
         $bot->sendRequest('sendDice', [
@@ -57,20 +57,23 @@ class AllBreedsController extends Controller
                 'custom_payload' => true,
             ]);
 
-            //fetching breed name from the URL
+            //Fetch breed name from the URL
             $nameBreed = explode('/', $breedURL)[4];
             $nameBreed = str_replace('-', ' ', $nameBreed);
 
-            //send message
+            //Send Image
             $message = OutgoingMessage::create("Breed: <b>" . ucwords($nameBreed) . "</b>\n\nSource: https://dog.ceo")->withAttachment($attachment);
 
-            //sending photo notification
+            //Sending Notification
             $bot->sendRequest('sendChatAction', [
                 'user_id' => $userId,
                 'action' => 'upload_photo'
             ]);
 
-            $bot->reply($message, ['parse_mode' => 'HTML', 'reply_to_message_id' => $message_id]);
+            $bot->reply($message, [
+                'parse_mode' => 'HTML', 
+                'reply_to_message_id' => $message_id
+            ]);
         }else {
             $bot->reply($this->endpoint->random(), ['parse_mode' => 'HTML']);
         }

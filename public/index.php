@@ -58,3 +58,6 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+
+//Custom Helpers
+require_once __DIR__ . '/../app/helpers.php';

@@ -36,17 +36,15 @@ class ReviewController extends Controller
      */
     public function store($data)
     {
-        //Convert Protected Object to Array
-        $data = (array)$data;
-        $prefix = chr(0).'*'.chr(0);
 
-        $subscriber = $data[$prefix.'items']['from'];
+        //Get Message Id
+        $subscriber = accessProtected($data, 'items')['from'];
 
         $review = new Review();
         $review->subscriber_id = $subscriber['id'];
 
-        if (array_key_exists('text', $data[$prefix.'items'])) {
-            $review->body = $data[$prefix.'items']['text'];
+        if (array_key_exists('text', accessProtected($data, 'items'))) {
+            $review->body = accessProtected($data, 'items')['text'];
             $review->save();
         }
     }

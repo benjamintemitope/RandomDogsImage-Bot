@@ -17,7 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::match(['get', 'post'], '/botman', 'BotManController@handle');
+Route::match([
+	'get', 
+	'post'
+], '/botman', 'BotManController@handle');
 
 Auth::routes();
 
@@ -29,5 +32,3 @@ Route::get('reviews', 'ReviewController@index')->middleware('auth')->name('revie
 
 //Send Conversation
 Route::post('send/{id}', 'SendConversation@sendConversation')->middleware('auth');
-
-/*Route::get('/botman/tinker', 'BotManController@tinker');*/

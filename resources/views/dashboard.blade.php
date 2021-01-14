@@ -155,11 +155,16 @@
                                     <option value="random">Random</option>
                                     <option value="breed">Breed</option>
                                     <option value="sub-breed">Sub Breed</option>
+                                    <option value="review">Review</option>
                                 </select>
                               </div>
                               <div class="form-group">
                                 <label for="message" class="col-form-label">Message</label>
                                 <textarea class="form-control" name="message" id="message" cols="20" rows="10"></textarea>
+                              </div>
+                              <div class="form-group">
+                                <label for="imageURL" class="col-form-label">Image URL</label>
+                                <input class="form-control" type="text" name="imageURL" id="imageURL" placeholder="Image URL">
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -14,14 +14,14 @@ use Illuminate\Http\Request;
 
 class SearchBreedsController extends Controller
 {
-    public $searchResults = [];
+    protected $searchResults = [];
 
     public function byBreed($bot, $text)
     {
         $text = strval($text);
 
         //Input Search Entries from all Breeds Available
-        $allBreeds = (new \App\Services\DogService)->allBreeds();
+        $allBreeds = (new DogService)->allBreeds();
         foreach ($allBreeds as $breed => $subBreed) {
             if (preg_match("#{$text}#i", $breed)) {
                 $this->searchResults[] .= $breed;   
@@ -42,12 +42,12 @@ class SearchBreedsController extends Controller
             return $bot->ask($question,function (Answer $answer) {
 
                 //Get Message Id
-                $payload = (array)$answer->getMessage()->getPayload();
+                $payload = $answer->getMessage()->getPayload();
                 $message_id = $payload['message_id'];
 
                 if ($answer->isInteractiveMessageReply()) {
                     $selectedBreed = $answer->getValue();
-                    $breedURL = (new \App\Services\DogService)->byBreed($selectedBreed);
+                    $breedURL = (new DogService)->byBreed($selectedBreed);
                     if (preg_match('/https:\/\//', $breedURL)) {
                         $attachment = new Image($breedURL, ['custom_payload' => true,]);
                         $breedName = explode('/', $breedURL)[4];
@@ -100,7 +100,7 @@ class SearchBreedsController extends Controller
 
                 if ($answer->isInteractiveMessageReply()) {
                     $selectedBreed = explode(':', $answer->getValue());
-                    $breedURL = (new \App\Services\DogService)->bySubBreed($selectedBreed[0], $selectedBreed[1]);
+                    $breedURL = (new DogService)->bySubBreed($selectedBreed[0], $selectedBreed[1]);
                     if (preg_match('/https:\/\//', $breedURL)) {
                         $attachment = new Image(
                             $breedURL, [

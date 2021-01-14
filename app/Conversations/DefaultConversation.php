@@ -51,13 +51,13 @@ class DefaultConversation extends Conversation
         return Keyboard::create()
             ->type(Keyboard::TYPE_KEYBOARD)
             ->resizeKeyboard()
-            ->addRow(KeyboardButton::create('🎲 Random Dog Image')->callbackData('random'))
+            ->addRow(KeyboardButton::create('🎲 Random Dog Image'))
             ->addRow(
-                KeyboardButton::create('🖼 A Image by Breed')->callbackData('breed'),
-                KeyboardButton::create('🖼 A Image by Sub-Breed')->callbackData('sub-breed'))
+                KeyboardButton::create('🖼 A Image by Breed'),
+                KeyboardButton::create('🖼 A Image by Sub-Breed'))
             ->addRow(
-                KeyboardButton::create('❓ Help Center')->callbackData('help'),
-                KeyboardButton::create('📄 Review')->callbackData('feedback'))
+                KeyboardButton::create('❓ Help Center'),
+                KeyboardButton::create('📄 Review'))
             ->toArray();
     }
 }

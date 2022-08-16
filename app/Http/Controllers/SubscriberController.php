@@ -108,7 +108,7 @@ class SubscriberController extends Controller
      * Update records if exist
      * Create record if new
      * 
-     * @param $chat
+     * @param object $messagePayload
      * @return void
      */
     public function storeOrUpdate($messagePayload)

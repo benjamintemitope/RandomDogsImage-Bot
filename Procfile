@@ -1,1 +1,0 @@
-web: vendor/bin/heroku-php-apache2 -l stroage/log/chatlogs.log public/
